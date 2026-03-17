@@ -118,7 +118,12 @@
 	color: #111827;
 }
 
-.bsab-submit-top {
+.bsab-settings-page form {
 	margin-top: 12px;
+}
+
+.bsab-submit-top {
+	display: inline-block;
+	margin-bottom: 8px;
 }
 

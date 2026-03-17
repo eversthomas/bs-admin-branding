@@ -96,6 +96,9 @@ Die folgenden Punkte sind **explizit nicht** Ziel dieses Projekts:
 **Ziel**  
 Rollen-/Menü-Sichtbarkeit und Einstellungen sollen **verlässlich** funktionieren: Regeln greifen technisch korrekt, Branding-Felder erscheinen nicht doppelt, und nach dem Speichern gibt es sichtbares Feedback.
 
+**Status**  
+Abgeschlossen und getestet (Stand: 2026-03-17).
+
 **Warum jetzt**  
 Solange Slug-Handling, doppelte Felder und fehlende Notices bestehen, untergraben sie das Vertrauen in das Plugin. Diese Grundprobleme müssen vor UX- und Styling-Arbeiten behoben werden.
 
@@ -136,6 +139,9 @@ Solange Slug-Handling, doppelte Felder und fehlende Notices bestehen, untergrabe
 
 **Ziel**  
 Das CSS-Token- und Asset-System soll **konsistent, vollständig und beherrschbar** sein: gesetzte Variablen werden genutzt, genutzte Variablen werden gesetzt, und referenzierte Assets existieren oder sind bewusst deaktiviert.
+
+**Status**  
+Abgeschlossen und getestet (Stand: 2026-03-17).
 
 **Warum jetzt**  
 Nach der funktionalen Stabilisierung ist es sinnvoll, das visuelle Fundament zu konsolidieren. Ein stabiles Token-System verhindert, dass spätere UI-Änderungen zu schwer nachvollziehbaren Stilbrüchen führen.
@@ -187,6 +193,9 @@ Nach der funktionalen Stabilisierung ist es sinnvoll, das visuelle Fundament zu 
 **Ziel**  
 Die Settings-Oberfläche soll **verständlich gegliedert, zugänglich und gut bedienbar** sein. Tabs, Informationsarchitektur und Rollen-/Menü-UI sind so gestaltet, dass Nutzer:innen schnell verstehen, was sie wo konfigurieren.
 
+**Status**  
+Abgeschlossen und getestet (Stand: 2026-03-17).
+
 **Warum jetzt**  
 Nachdem Funktionalität und Styling-Basis stabiler sind, lohnt sich der Fokus auf Bedienbarkeit. Eine gute UX macht die vorhandenen Features erst voll nutzbar.
 
@@ -232,6 +241,9 @@ Nachdem Funktionalität und Styling-Basis stabiler sind, lohnt sich der Fokus au
 
 **Ziel**  
 Es entsteht eine **Backend-Architektur**, die eine spätere Rollen-Vorschau ermöglicht, ohne bestehendes Verhalten zu verändern. Ein klar definierter Simulationskontext wird eingeführt, der Menüs temporär aus Sicht einer Rolle darstellen kann.
+
+**Status**  
+Vorbereitet, ohne Verhaltensänderung (Stand: 2026-03-17).
 
 **Warum jetzt**  
 Nach Stabilisierung und UX-Verbesserung ist die Codebasis bereit, um vorsichtig neue Architekturbausteine einzuführen, ohne das aktuelle Verhalten zu riskieren.

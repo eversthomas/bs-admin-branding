@@ -88,9 +88,9 @@ final class SettingsPage {
 		$this->add_color_field('color_sidebar_active', __('Sidebar Aktiv', 'bs-admin-branding'), 'bsab_section_colors');
 		$this->add_color_field('color_adminbar_bg', __('Adminbar Hintergrund', 'bs-admin-branding'), 'bsab_section_colors');
 		$this->add_color_field('color_adminbar_text', __('Adminbar Text', 'bs-admin-branding'), 'bsab_section_colors');
-		$this->add_color_field('color_content_bg', __('Seitenhintergrund', 'bs-admin-branding'), 'bsab_section_colors');
-		$this->add_color_field('color_card_bg', __('Card Hintergrund', 'bs-admin-branding'), 'bsab_section_colors');
-		$this->add_color_field('color_card_text', __('Card Text', 'bs-admin-branding'), 'bsab_section_colors');
+		$this->add_color_field('color_content_bg', __('Seitenhintergrund', 'bs-admin-branding'), 'bsab_section_layout');
+		$this->add_color_field('color_card_bg', __('Card Hintergrund', 'bs-admin-branding'), 'bsab_section_layout');
+		$this->add_color_field('color_card_text', __('Card Text', 'bs-admin-branding'), 'bsab_section_layout');
 		$this->add_color_field('color_accent', __('Akzentfarbe', 'bs-admin-branding'), 'bsab_section_colors');
 		$this->add_color_field('color_accent_hover', __('Akzent Hover', 'bs-admin-branding'), 'bsab_section_colors');
 
@@ -140,6 +140,7 @@ final class SettingsPage {
 		$all_roles = $roles ? $roles->roles : [];
 		$selected_role = isset($_GET['bsab_role']) ? sanitize_key((string) $_GET['bsab_role']) : '';
 		$active_tab = isset($_GET['bsab_tab']) ? sanitize_key((string) $_GET['bsab_tab']) : 'general';
+		$is_admin = current_user_can('manage_options');
 
 		$allowed_tabs = ['general', 'sidebar', 'content', 'branding', 'roles'];
 		if (!in_array($active_tab, $allowed_tabs, true)) {
@@ -299,6 +300,27 @@ final class SettingsPage {
 													<p class="description">
 														<?php echo esc_html__('Wähle eine Rolle, um die sichtbaren Menüpunkte zu steuern.', 'bs-admin-branding'); ?>
 													</p>
+													<?php if ($is_admin && $selected_role !== '') : ?>
+														<?php
+														$nonce = wp_create_nonce('bsab_preview');
+														$preview_url = add_query_arg(
+															[
+																'page'               => 'bs-admin-branding',
+																'bsab_tab'           => 'roles',
+																'bsab_role'          => $selected_role,
+																'bsab_preview_action'=> 'start',
+																'bsab_preview_role'  => $selected_role,
+																'bsab_preview_nonce' => $nonce,
+															],
+															admin_url('admin.php')
+														);
+														?>
+														<p>
+															<a href="<?php echo esc_url($preview_url); ?>" class="button button-secondary">
+																<?php echo esc_html__('Rollen-Vorschau für diese Rolle starten', 'bs-admin-branding'); ?>
+															</a>
+														</p>
+													<?php endif; ?>
 												</td>
 											</tr>
 											</tbody>

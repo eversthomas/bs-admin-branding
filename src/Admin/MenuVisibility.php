@@ -11,6 +11,8 @@ use BS_Admin_Branding\Settings\Defaults;
 
 final class MenuVisibility {
 
+	private const PREVIEW_META_KEY = 'bsab_admin_branding_preview_role';
+
 	public function init(): void {
 		add_action('admin_menu', [$this, 'filter_menu'], 999);
 	}
@@ -30,12 +32,6 @@ final class MenuVisibility {
 			return;
 		}
 
-		$roles = (array) $user->roles;
-
-		if (in_array('administrator', $roles, true)) {
-			return;
-		}
-
 		$settings = get_option(Defaults::OPTION_KEY, []);
 		$settings = Defaults::merge(is_array($settings) ? $settings : []);
 
@@ -45,16 +41,9 @@ final class MenuVisibility {
 			return;
 		}
 
-		$role_rule = null;
+		$role_rule = $this->resolve_role_rule($rules, $user);
 
-		foreach ($roles as $role) {
-			if (isset($rules[$role])) {
-				$role_rule = $rules[$role];
-				break;
-			}
-		}
-
-		if (!$role_rule) {
+		if ($role_rule === null) {
 			return;
 		}
 
@@ -159,6 +148,41 @@ final class MenuVisibility {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Ermittelt die effektiven Rollenregeln für den aktuellen Benutzer.
+	 *
+	 * Bevorzugt wird in Zukunft ein ggf. gesetzter Vorschaustatus (user_meta),
+	 * fällt ansonsten auf die echten Rollen des Benutzers zurück.
+	 */
+	private function resolve_role_rule(array $all_rules, \WP_User $user): ?array {
+		if (!$all_rules) {
+			return null;
+		}
+
+		$roles = (array) $user->roles;
+
+		// Rollen-Vorschau für Administrator:innen: wenn ein Vorschaustatus gesetzt ist,
+		// wird dieser bevorzugt genutzt, ohne die echten Rollen zu verändern.
+		if (in_array('administrator', $roles, true)) {
+			$preview_role = \BS_Admin_Branding\Admin\RolePreview::get_preview_role_for_user($user->ID);
+
+			if ($preview_role !== '' && isset($all_rules[$preview_role])) {
+				return $all_rules[$preview_role];
+			}
+
+			// kein Vorschaustatus: Administrator behält vollen Zugriff
+			return null;
+		}
+
+		foreach ($roles as $role) {
+			if (isset($all_rules[$role])) {
+				return $all_rules[$role];
+			}
+		}
+
+		return null;
 	}
 }
 
