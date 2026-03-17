@@ -12,6 +12,11 @@
  	}
  }
 
+/* Sidebar-Tab: Karte darf breiter sein, Inhalt wird innen zweispaltig aufgeteilt */
+.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .bsab-settings-layout {
+	grid-template-columns: minmax(0, 1.6fr);
+}
+
  .bsab-settings-column {
  	display: flex;
  	flex-direction: column;
@@ -44,6 +49,28 @@
  	width: 220px;
  }
 
+.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table tbody {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	column-gap: 24px;
+}
+
+.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table tr {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table th {
+	width: auto;
+	display: block;
+}
+
+.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table td {
+	display: block;
+	padding-left: 0;
+}
+
 .bsab-settings-card .regular-text,
 .bsab-settings-card input[type="text"],
 .bsab-settings-card select,
@@ -67,16 +94,54 @@
  		display: block;
  		padding-left: 0;
  	}
+
+	.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table tbody {
+		display: block;
+	}
+
+	.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table tr {
+		width: 100%;
+		padding-right: 0;
+	}
  }
 
  .bsab-settings-page .wp-picker-container .wp-color-result {
  	box-shadow: none;
- 	border-radius: 999px;
+	border-radius: 999px;
  }
 
  .bsab-settings-page .wp-picker-container .wp-color-result-text {
  	font-size: 12px;
  }
+
+/* WordPress Color Picker im Kontext der Settings-Seite konsistent darstellen */
+.bsab-settings-page .wp-picker-container .wp-color-result.button {
+	background: #f6f7f7 !important;
+	border-color: #dcdcde !important;
+	color: #1d2327;
+	position: relative;
+	overflow: hidden;
+	padding-left: 34px;
+	height: 30px;
+	line-height: 28px;
+}
+
+.bsab-settings-page .wp-picker-container .wp-color-result.button:before {
+	content: '';
+	position: absolute;
+	left: 4px;
+	top: 4px;
+	bottom: 4px;
+	width: 24px;
+	border-radius: 999px;
+	/* nutzt die vom WP-Color-Picker gesetzte Hintergrundfarbe */
+	background: inherit;
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.bsab-settings-page .wp-picker-container .wp-color-result-text {
+	font-size: 12px;
+}
 
  .bsab-tab-panels {
  	margin-top: 12px;

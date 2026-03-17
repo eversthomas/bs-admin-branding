@@ -221,13 +221,6 @@ final class SettingsPage {
 									</table>
 								</div>
 							</div>
-
-							<div class="bsab-settings-column">
-								<div class="bsab-settings-card">
-									<h2><?php echo esc_html__('Hinweis', 'bs-admin-branding'); ?></h2>
-									<p><?php echo esc_html__('Weitere spezifische Sidebar-Optionen können hier zukünftig ergänzt werden.', 'bs-admin-branding'); ?></p>
-								</div>
-							</div>
 						</div>
 					</div>
 
