@@ -1,5 +1,52 @@
  (function ($) {
  	$(function () {
+		var storageKey = 'bsab_active_tab';
+
+		function setActiveTab(tabId) {
+			if (!tabId) {
+				return;
+			}
+
+			var $tabs = $('.bsab-tabs .nav-tab');
+			var $panels = $('.bsab-tab-panel');
+
+			$tabs.each(function () {
+				var $t = $(this);
+				var tId = $t.data('bsab-tab');
+				var isActive = tId === tabId;
+
+				$t.toggleClass('nav-tab-active', isActive);
+				$t.attr('aria-selected', isActive ? 'true' : 'false');
+			});
+
+			$panels.each(function () {
+				var $p = $(this);
+				var pId = $p.data('bsab-tab-panel');
+				var isActive = pId === tabId;
+
+				$p.toggleClass('is-active', isActive);
+				if (isActive) {
+					$p.attr('aria-hidden', 'false');
+				} else {
+					$p.attr('aria-hidden', 'true');
+				}
+			});
+
+			try {
+				var url = new URL(window.location.href);
+				url.searchParams.set('bsab_tab', tabId);
+				window.history.replaceState({}, '', url.toString());
+			} catch (e) {
+				// ignore URL errors
+			}
+
+			try {
+				window.localStorage.setItem(storageKey, tabId);
+			} catch (e) {
+				// ignore storage errors
+			}
+		}
+
  		$('.bsab-color-field').each(function () {
  			var $input = $(this);
  			var cssVars = ($input.data('css-vars') || '').toString().split(',').map(function (v) {
@@ -65,26 +112,43 @@
  				return;
  			}
 
- 			$tab
- 				.addClass('nav-tab-active')
- 				.siblings('.nav-tab')
- 				.removeClass('nav-tab-active');
-
- 			$('.bsab-tab-panel')
- 				.removeClass('is-active')
- 				.filter('[data-bsab-tab-panel="' + target + '"]')
- 				.addClass('is-active');
+			setActiveTab(target);
  		});
+
+		(function initActiveTab() {
+			var initial = 'general';
+
+			try {
+				var url = new URL(window.location.href);
+				var fromUrl = url.searchParams.get('bsab_tab');
+				if (fromUrl) {
+					initial = fromUrl;
+				} else {
+					var fromStorage = window.localStorage.getItem(storageKey);
+					if (fromStorage) {
+						initial = fromStorage;
+					}
+				}
+			} catch (e) {
+				// fallback auf default
+			}
+
+			setActiveTab(initial);
+		})();
 
 		$('.bsab-role-select').on('change', function () {
 			var role = $(this).val();
-			var url = new URL(window.location.href);
-			if (role) {
-				url.searchParams.set('bsab_role', role);
-			} else {
-				url.searchParams.delete('bsab_role');
+			try {
+				var url = new URL(window.location.href);
+				if (role) {
+					url.searchParams.set('bsab_role', role);
+				} else {
+					url.searchParams.delete('bsab_role');
+				}
+				window.location.href = url.toString();
+			} catch (e) {
+				this.form.submit();
 			}
-			window.location.href = url.toString();
 		});
  	});
  })(jQuery);

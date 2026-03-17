@@ -3,38 +3,9 @@
    Einbinden via functions.php mit add_action('admin_enqueue_scripts', ...)
    ============================================================================= */
 
-/* figtree-regular - latin */
-@font-face {
-  font-display: swap;
-  font-family: 'Figtree';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/figtree-v9-latin-regular.woff2') format('woff2');
-}
-/* figtree-italic - latin */
-@font-face {
-  font-display: swap;
-  font-family: 'Figtree';
-  font-style: italic;
-  font-weight: 400;
-  src: url('../fonts/figtree-v9-latin-italic.woff2') format('woff2');
-}
-/* figtree-600 - latin */
-@font-face {
-  font-display: swap;
-  font-family: 'Figtree';
-  font-style: normal;
-  font-weight: 600;
-  src: url('../fonts/figtree-v9-latin-600.woff2') format('woff2');
-}
-/* figtree-600italic - latin */
-@font-face {
-  font-display: swap;
-  font-family: 'Figtree';
-  font-style: italic;
-  font-weight: 600;
-  src: url('../fonts/figtree-v9-latin-600italic.woff2') format('woff2');
-}
+/* Hinweis: Die Figtree-Fonts werden derzeit nicht über eigene Font-Dateien geladen.
+   Die Option "Figtree-Schrift verwenden" nutzt Figtree nur dann, wenn die Schriftart
+   systemweit verfügbar ist und fällt ansonsten auf die System-Stacks zurück. */
 
 
 /* -----------------------------------------------------------------------------

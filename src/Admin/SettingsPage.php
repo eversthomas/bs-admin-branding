@@ -139,6 +139,12 @@ final class SettingsPage {
 		$roles    = function_exists('wp_roles') ? wp_roles() : null;
 		$all_roles = $roles ? $roles->roles : [];
 		$selected_role = isset($_GET['bsab_role']) ? sanitize_key((string) $_GET['bsab_role']) : '';
+		$active_tab = isset($_GET['bsab_tab']) ? sanitize_key((string) $_GET['bsab_tab']) : 'general';
+
+		$allowed_tabs = ['general', 'sidebar', 'content', 'branding', 'roles'];
+		if (!in_array($active_tab, $allowed_tabs, true)) {
+			$active_tab = 'general';
+		}
 
 		if ($selected_role === '' && is_array($all_roles)) {
 			foreach (array_keys($all_roles) as $role_key) {
@@ -159,19 +165,33 @@ final class SettingsPage {
 		<div class="wrap bsab-settings-page">
 			<h1><?php echo esc_html__('BS Admin Branding', 'bs-admin-branding'); ?></h1>
 
-			<h2 class="nav-tab-wrapper bsab-tabs">
-				<a href="#bsab-tab-general" class="nav-tab nav-tab-active" data-bsab-tab="general"><?php echo esc_html__('Allgemein', 'bs-admin-branding'); ?></a>
-				<a href="#bsab-tab-sidebar" class="nav-tab" data-bsab-tab="sidebar"><?php echo esc_html__('Sidebar', 'bs-admin-branding'); ?></a>
-				<a href="#bsab-tab-content" class="nav-tab" data-bsab-tab="content"><?php echo esc_html__('Content', 'bs-admin-branding'); ?></a>
-				<a href="#bsab-tab-branding" class="nav-tab" data-bsab-tab="branding"><?php echo esc_html__('Branding', 'bs-admin-branding'); ?></a>
-				<a href="#bsab-tab-roles" class="nav-tab" data-bsab-tab="roles"><?php echo esc_html__('Rollen & Menüs', 'bs-admin-branding'); ?></a>
+			<?php settings_errors('bsab_settings_group'); ?>
+
+			<h2 class="nav-tab-wrapper bsab-tabs" role="tablist">
+				<a href="#bsab-tab-general" class="nav-tab <?php echo $active_tab === 'general' ? 'nav-tab-active' : ''; ?>" data-bsab-tab="general" role="tab" aria-selected="<?php echo $active_tab === 'general' ? 'true' : 'false'; ?>" aria-controls="bsab-tab-panel-general" id="bsab-tab-general">
+					<?php echo esc_html__('Allgemein', 'bs-admin-branding'); ?>
+				</a>
+				<a href="#bsab-tab-sidebar" class="nav-tab <?php echo $active_tab === 'sidebar' ? 'nav-tab-active' : ''; ?>" data-bsab-tab="sidebar" role="tab" aria-selected="<?php echo $active_tab === 'sidebar' ? 'true' : 'false'; ?>" aria-controls="bsab-tab-panel-sidebar" id="bsab-tab-sidebar">
+					<?php echo esc_html__('Sidebar', 'bs-admin-branding'); ?>
+				</a>
+				<a href="#bsab-tab-content" class="nav-tab <?php echo $active_tab === 'content' ? 'nav-tab-active' : ''; ?>" data-bsab-tab="content" role="tab" aria-selected="<?php echo $active_tab === 'content' ? 'true' : 'false'; ?>" aria-controls="bsab-tab-panel-content" id="bsab-tab-content">
+					<?php echo esc_html__('Content', 'bs-admin-branding'); ?>
+				</a>
+				<a href="#bsab-tab-branding" class="nav-tab <?php echo $active_tab === 'branding' ? 'nav-tab-active' : ''; ?>" data-bsab-tab="branding" role="tab" aria-selected="<?php echo $active_tab === 'branding' ? 'true' : 'false'; ?>" aria-controls="bsab-tab-panel-branding" id="bsab-tab-branding">
+					<?php echo esc_html__('Branding', 'bs-admin-branding'); ?>
+				</a>
+				<a href="#bsab-tab-roles" class="nav-tab <?php echo $active_tab === 'roles' ? 'nav-tab-active' : ''; ?>" data-bsab-tab="roles" role="tab" aria-selected="<?php echo $active_tab === 'roles' ? 'true' : 'false'; ?>" aria-controls="bsab-tab-panel-roles" id="bsab-tab-roles">
+					<?php echo esc_html__('Rollen & Menüs', 'bs-admin-branding'); ?>
+				</a>
 			</h2>
 
 			<form method="post" action="options.php">
 				<?php settings_fields('bsab_settings_group'); ?>
 
+				<?php submit_button(__('Änderungen speichern', 'bs-admin-branding'), 'primary', 'submit', false, ['class' => 'bsab-submit-top']); ?>
+
 				<div class="bsab-tab-panels">
-					<div class="bsab-tab-panel is-active" data-bsab-tab-panel="general">
+					<div class="bsab-tab-panel <?php echo $active_tab === 'general' ? 'is-active' : ''; ?>" data-bsab-tab-panel="general" role="tabpanel" aria-labelledby="bsab-tab-general" id="bsab-tab-panel-general" aria-hidden="<?php echo $active_tab === 'general' ? 'false' : 'true'; ?>">
 						<div class="bsab-settings-layout">
 							<div class="bsab-settings-column">
 								<div class="bsab-settings-card">
@@ -186,7 +206,7 @@ final class SettingsPage {
 						</div>
 					</div>
 
-					<div class="bsab-tab-panel" data-bsab-tab-panel="sidebar">
+					<div class="bsab-tab-panel <?php echo $active_tab === 'sidebar' ? 'is-active' : ''; ?>" data-bsab-tab-panel="sidebar" role="tabpanel" aria-labelledby="bsab-tab-sidebar" id="bsab-tab-panel-sidebar" aria-hidden="<?php echo $active_tab === 'sidebar' ? 'false' : 'true'; ?>">
 						<div class="bsab-settings-layout">
 							<div class="bsab-settings-column">
 								<div class="bsab-settings-card">
@@ -210,7 +230,7 @@ final class SettingsPage {
 						</div>
 					</div>
 
-					<div class="bsab-tab-panel" data-bsab-tab-panel="content">
+					<div class="bsab-tab-panel <?php echo $active_tab === 'content' ? 'is-active' : ''; ?>" data-bsab-tab-panel="content" role="tabpanel" aria-labelledby="bsab-tab-content" id="bsab-tab-panel-content" aria-hidden="<?php echo $active_tab === 'content' ? 'false' : 'true'; ?>">
 						<div class="bsab-settings-layout">
 							<div class="bsab-settings-column">
 								<div class="bsab-settings-card">
@@ -218,7 +238,6 @@ final class SettingsPage {
 									<table class="form-table" role="presentation">
 										<tbody>
 										<?php do_settings_fields('bs-admin-branding', 'bsab_section_layout'); ?>
-										<?php do_settings_fields('bs-admin-branding', 'bsab_section_branding'); ?>
 										</tbody>
 									</table>
 								</div>
@@ -226,7 +245,7 @@ final class SettingsPage {
 						</div>
 					</div>
 
-					<div class="bsab-tab-panel" data-bsab-tab-panel="branding">
+					<div class="bsab-tab-panel <?php echo $active_tab === 'branding' ? 'is-active' : ''; ?>" data-bsab-tab-panel="branding" role="tabpanel" aria-labelledby="bsab-tab-branding" id="bsab-tab-panel-branding" aria-hidden="<?php echo $active_tab === 'branding' ? 'false' : 'true'; ?>">
 						<div class="bsab-settings-layout">
 							<div class="bsab-settings-column">
 								<div class="bsab-settings-card">
@@ -241,7 +260,7 @@ final class SettingsPage {
 						</div>
 					</div>
 
-					<div class="bsab-tab-panel" data-bsab-tab-panel="roles">
+					<div class="bsab-tab-panel <?php echo $active_tab === 'roles' ? 'is-active' : ''; ?>" data-bsab-tab-panel="roles" role="tabpanel" aria-labelledby="bsab-tab-roles" id="bsab-tab-panel-roles" aria-hidden="<?php echo $active_tab === 'roles' ? 'false' : 'true'; ?>">
 						<div class="bsab-settings-layout">
 							<div class="bsab-settings-column">
 								<div class="bsab-settings-card">
@@ -299,6 +318,9 @@ final class SettingsPage {
 									$hidden_main = $current_role_rules['hide'] ?? [];
 									$hidden_subs = $current_role_rules['hide_submenus'] ?? [];
 									?>
+									<p class="description">
+										<?php echo esc_html__('Wichtig: Diese Einstellungen steuern nur, welche Menüs sichtbar sind. Rechte und Zugriffe selbst bleiben unverändert und werden weiterhin von WordPress und anderen Plugins kontrolliert.', 'bs-admin-branding'); ?>
+									</p>
 									<?php if (!empty($menu)) : ?>
 										<table class="form-table" role="presentation">
 											<tbody>
@@ -308,7 +330,8 @@ final class SettingsPage {
 												if ($slug === '' || $slug === 'separator1' || $slug === 'separator2' || $slug === 'separator-last') {
 													continue;
 												}
-												$checked = in_array(sanitize_key($slug), $hidden_main, true);
+												$legacy_slug = sanitize_key($slug);
+												$checked = in_array($slug, $hidden_main, true) || in_array($legacy_slug, $hidden_main, true);
 												?>
 												<tr>
 													<th scope="row">
@@ -316,7 +339,7 @@ final class SettingsPage {
 															<input
 																type="checkbox"
 																name="<?php echo esc_attr(Defaults::OPTION_KEY . '[role_menu_rules][' . $selected_role . '][hide][]'); ?>"
-																value="<?php echo esc_attr(sanitize_key($slug)); ?>"
+																value="<?php echo esc_attr($slug); ?>"
 																<?php checked($checked); ?>
 															/>
 															<?php echo esc_html($title); ?>
@@ -326,20 +349,21 @@ final class SettingsPage {
 														<?php
 														$sub_items = $submenu[$slug] ?? [];
 														if ($sub_items) :
+															$hidden_for_parent = $hidden_subs[$slug] ?? $hidden_subs[$legacy_slug] ?? [];
 															foreach ($sub_items as $sub_item) :
 																$sub_slug = isset($sub_item[2]) ? (string) $sub_item[2] : '';
 																$sub_title = isset($sub_item[0]) ? wp_strip_all_tags((string) $sub_item[0]) : $sub_slug;
 																if ($sub_slug === '') {
 																	continue;
 																}
-																$hidden_for_parent = $hidden_subs[sanitize_key($slug)] ?? [];
-																$sub_checked = in_array(sanitize_key($sub_slug), $hidden_for_parent, true);
+																$legacy_sub_slug = sanitize_key($sub_slug);
+																$sub_checked = in_array($sub_slug, $hidden_for_parent, true) || in_array($legacy_sub_slug, $hidden_for_parent, true);
 																?>
 																<label style="display:block;margin-bottom:4px;">
 																	<input
 																		type="checkbox"
-																		name="<?php echo esc_attr(Defaults::OPTION_KEY . '[role_menu_rules][' . $selected_role . '][hide_submenus][' . sanitize_key($slug) . '][]'); ?>"
-																		value="<?php echo esc_attr(sanitize_key($sub_slug)); ?>"
+																		name="<?php echo esc_attr(Defaults::OPTION_KEY . '[role_menu_rules][' . $selected_role . '][hide_submenus][' . $slug . '][]'); ?>"
+																		value="<?php echo esc_attr($sub_slug); ?>"
 																		<?php checked($sub_checked); ?>
 																	/>
 																	<?php echo esc_html($sub_title); ?>
@@ -384,6 +408,11 @@ final class SettingsPage {
 						<?php checked($value, '1'); ?>
 					/>
 				</label>
+				<?php if ($key === 'enable_login_css' || $key === 'enable_editor_css') : ?>
+					<p class="description">
+						<?php echo esc_html__('Diese Option ist in der aktuellen Version als Vorbereitung vorgesehen und hat möglicherweise noch keinen sichtbaren Effekt.', 'bs-admin-branding'); ?>
+					</p>
+				<?php endif; ?>
 				<?php
 			},
 			'bs-admin-branding',

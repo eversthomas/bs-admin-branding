@@ -117,7 +117,7 @@ final class Sanitizer {
 
 			if (!empty($rules['hide']) && is_array($rules['hide'])) {
 				foreach ($rules['hide'] as $slug) {
-					$slug = sanitize_key((string) $slug);
+					$slug = trim(wp_strip_all_tags((string) $slug));
 					if ($slug !== '') {
 						$role_rules['hide'][] = $slug;
 					}
@@ -126,7 +126,7 @@ final class Sanitizer {
 
 			if (!empty($rules['hide_submenus']) && is_array($rules['hide_submenus'])) {
 				foreach ($rules['hide_submenus'] as $parent_slug => $sub_slugs) {
-					$parent_slug = sanitize_key((string) $parent_slug);
+					$parent_slug = trim(wp_strip_all_tags((string) $parent_slug));
 					if ($parent_slug === '' || !is_array($sub_slugs)) {
 						continue;
 					}
@@ -134,7 +134,7 @@ final class Sanitizer {
 					$sanitized_subs = [];
 
 					foreach ($sub_slugs as $sub_slug) {
-						$sub_slug = sanitize_key((string) $sub_slug);
+						$sub_slug = trim(wp_strip_all_tags((string) $sub_slug));
 						if ($sub_slug !== '') {
 							$sanitized_subs[] = $sub_slug;
 						}

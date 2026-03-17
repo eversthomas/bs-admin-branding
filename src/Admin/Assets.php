@@ -128,15 +128,25 @@ final class Assets {
 
 		echo '--sidebar-bg:' . esc_attr($settings['color_sidebar_bg']) . ';';
 		echo '--sidebar-submenu-bg:' . esc_attr($settings['color_sidebar_submenu_bg']) . ';';
+		echo '--sidebar-bg-sub:' . esc_attr($settings['color_sidebar_submenu_bg']) . ';';
 		echo '--sidebar-submenu-hover-bg:' . esc_attr($settings['color_sidebar_submenu_hover_bg']) . ';';
 		echo '--sidebar-text:' . esc_attr($settings['color_sidebar_text']) . ';';
+		echo '--sidebar-text-sub:' . esc_attr($settings['color_sidebar_text']) . ';';
 		echo '--sidebar-hover:' . esc_attr($settings['color_sidebar_hover']) . ';';
+		echo '--sidebar-hover-bg:' . esc_attr($settings['color_sidebar_hover']) . ';';
 		echo '--sidebar-hover-text:' . esc_attr($settings['color_sidebar_hover_text']) . ';';
 		echo '--sidebar-active:' . esc_attr($settings['color_sidebar_active']) . ';';
+		echo '--sidebar-active-bg:' . esc_attr($settings['color_sidebar_active']) . ';';
+		echo '--sidebar-active-text:' . esc_attr($settings['color_sidebar_hover_text']) . ';';
+		echo '--sidebar-border:#e5e7eb;';
 
 		echo '--adminbar-bg:' . esc_attr($settings['color_adminbar_bg']) . ';';
 		echo '--adminbar-text:' . esc_attr($settings['color_adminbar_text']) . ';';
+		echo '--adminbar-text-sub:' . esc_attr($settings['color_adminbar_text']) . ';';
+		echo '--adminbar-border:#e5e7eb;';
+		echo '--adminbar-hover-bg:' . esc_attr($settings['color_sidebar_hover']) . ';';
 
+		echo '--body-bg:' . esc_attr($settings['color_content_bg']) . ';';
 		echo '--content-bg:' . esc_attr($settings['color_content_bg']) . ';';
 		echo '--card-bg:' . esc_attr($settings['color_card_bg']) . ';';
 		echo '--card-text:' . esc_attr($settings['color_card_text']) . ';';
@@ -191,13 +201,23 @@ final class Assets {
 			. '--border-radius:' . esc_attr($settings['border_radius']) . ';'
 			. '--sidebar-bg:' . esc_attr($settings['color_sidebar_bg']) . ';'
 			. '--sidebar-submenu-bg:' . esc_attr($settings['color_sidebar_submenu_bg']) . ';'
+			. '--sidebar-bg-sub:' . esc_attr($settings['color_sidebar_submenu_bg']) . ';'
 			. '--sidebar-submenu-hover-bg:' . esc_attr($settings['color_sidebar_submenu_hover_bg']) . ';'
 			. '--sidebar-text:' . esc_attr($settings['color_sidebar_text']) . ';'
+			. '--sidebar-text-sub:' . esc_attr($settings['color_sidebar_text']) . ';'
 			. '--sidebar-hover:' . esc_attr($settings['color_sidebar_hover']) . ';'
+			. '--sidebar-hover-bg:' . esc_attr($settings['color_sidebar_hover']) . ';'
 			. '--sidebar-hover-text:' . esc_attr($settings['color_sidebar_hover_text']) . ';'
 			. '--sidebar-active:' . esc_attr($settings['color_sidebar_active']) . ';'
+			. '--sidebar-active-bg:' . esc_attr($settings['color_sidebar_active']) . ';'
+			. '--sidebar-active-text:' . esc_attr($settings['color_sidebar_hover_text']) . ';'
+			. '--sidebar-border:#e5e7eb;'
 			. '--adminbar-bg:' . esc_attr($settings['color_adminbar_bg']) . ';'
 			. '--adminbar-text:' . esc_attr($settings['color_adminbar_text']) . ';'
+			. '--adminbar-text-sub:' . esc_attr($settings['color_adminbar_text']) . ';'
+			. '--adminbar-border:#e5e7eb;'
+			. '--adminbar-hover-bg:' . esc_attr($settings['color_sidebar_hover']) . ';'
+			. '--body-bg:' . esc_attr($settings['color_content_bg']) . ';'
 			. '--content-bg:' . esc_attr($settings['color_content_bg']) . ';'
 			. '--card-bg:' . esc_attr($settings['color_card_bg']) . ';'
 			. '--card-text:' . esc_attr($settings['color_card_text']) . ';'
