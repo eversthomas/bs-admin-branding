@@ -12,8 +12,8 @@
  	}
  }
 
-/* Sidebar-Tab: Karte darf breiter sein, Inhalt wird innen zweispaltig aufgeteilt */
-.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .bsab-settings-layout {
+/* Farben-Tab: Karte darf breiter sein, Inhalt wird innen zweispaltig aufgeteilt */
+.bsab-tab-panel[data-bsab-tab-panel="colors"] .bsab-settings-layout {
 	grid-template-columns: minmax(0, 1.6fr);
 }
 
@@ -49,24 +49,24 @@
  	width: 220px;
  }
 
-.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table tbody {
+.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table tbody {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	column-gap: 24px;
 }
 
-.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table tr {
+.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table tr {
 	display: block;
 	width: 100%;
 	box-sizing: border-box;
 }
 
-.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table th {
+.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table th {
 	width: auto;
 	display: block;
 }
 
-.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table td {
+.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table td {
 	display: block;
 	padding-left: 0;
 }
@@ -95,11 +95,11 @@
  		padding-left: 0;
  	}
 
-	.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table tbody {
+	.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table tbody {
 		display: block;
 	}
 
-	.bsab-tab-panel[data-bsab-tab-panel="sidebar"] .form-table tr {
+	.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table tr {
 		width: 100%;
 		padding-right: 0;
 	}

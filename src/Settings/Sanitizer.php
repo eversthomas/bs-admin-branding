@@ -31,6 +31,7 @@ final class Sanitizer {
 		$output['color_sidebar_hover']      = self::sanitize_hex($input['color_sidebar_hover'] ?? $defaults['color_sidebar_hover'], $defaults['color_sidebar_hover']);
 		$output['color_sidebar_hover_text'] = self::sanitize_hex($input['color_sidebar_hover_text'] ?? $defaults['color_sidebar_hover_text'], $defaults['color_sidebar_hover_text']);
 		$output['color_sidebar_active']     = self::sanitize_hex($input['color_sidebar_active'] ?? $defaults['color_sidebar_active'], $defaults['color_sidebar_active']);
+		$output['color_sidebar_active_text'] = self::sanitize_hex($input['color_sidebar_active_text'] ?? $defaults['color_sidebar_active_text'], $defaults['color_sidebar_active_text']);
 
 		$output['color_adminbar_bg']   = self::sanitize_hex($input['color_adminbar_bg'] ?? $defaults['color_adminbar_bg'], $defaults['color_adminbar_bg']);
 		$output['color_adminbar_text'] = self::sanitize_hex($input['color_adminbar_text'] ?? $defaults['color_adminbar_text'], $defaults['color_adminbar_text']);
@@ -41,6 +42,15 @@ final class Sanitizer {
 
 		$output['color_accent']       = self::sanitize_hex($input['color_accent'] ?? $defaults['color_accent'], $defaults['color_accent']);
 		$output['color_accent_hover'] = self::sanitize_hex($input['color_accent_hover'] ?? $defaults['color_accent_hover'], $defaults['color_accent_hover']);
+
+		$output['color_border']              = self::sanitize_hex($input['color_border'] ?? $defaults['color_border'], $defaults['color_border']);
+		$output['color_table_header_bg']     = self::sanitize_hex($input['color_table_header_bg'] ?? $defaults['color_table_header_bg'], $defaults['color_table_header_bg']);
+		$output['color_table_row_hover']     = self::sanitize_hex($input['color_table_row_hover'] ?? $defaults['color_table_row_hover'], $defaults['color_table_row_hover']);
+		$output['color_text_heading']        = self::sanitize_hex($input['color_text_heading'] ?? $defaults['color_text_heading'], $defaults['color_text_heading']);
+		$output['color_text_input']          = self::sanitize_hex($input['color_text_input'] ?? $defaults['color_text_input'], $defaults['color_text_input']);
+		$output['color_button_border_hover'] = self::sanitize_hex($input['color_button_border_hover'] ?? $defaults['color_button_border_hover'], $defaults['color_button_border_hover']);
+		$output['color_footer_bg']           = self::sanitize_hex($input['color_footer_bg'] ?? $defaults['color_footer_bg'], $defaults['color_footer_bg']);
+		$output['color_adminbar_hover_bg']   = self::sanitize_hex($input['color_adminbar_hover_bg'] ?? $defaults['color_adminbar_hover_bg'], $defaults['color_adminbar_hover_bg']);
 
 		$output['footer_text'] = sanitize_text_field($input['footer_text'] ?? $defaults['footer_text']);
 		$output['footer_url']  = esc_url_raw($input['footer_url'] ?? $defaults['footer_url']);

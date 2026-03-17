@@ -40,6 +40,11 @@
 				// ignore URL errors
 			}
 
+			var $hidden = $('.bsab-active-tab-input');
+			if ($hidden.length) {
+				$hidden.val(tabId);
+			}
+
 			try {
 				window.localStorage.setItem(storageKey, tabId);
 			} catch (e) {

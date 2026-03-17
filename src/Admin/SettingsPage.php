@@ -16,6 +16,7 @@ final class SettingsPage {
 		add_action('admin_menu', [$this, 'register_menu']);
 		add_action('admin_init', [$this, 'register_settings']);
 		add_action('admin_enqueue_scripts', [$this, 'enqueue_settings_assets']);
+		add_filter('redirect_post_location', [$this, 'filter_redirect_post_location'], 10, 2);
 	}
 
 	public function register_menu(): void {
@@ -70,8 +71,6 @@ final class SettingsPage {
 		);
 
 		$this->add_checkbox_field('enable_admin_css', __('Admin-CSS aktivieren', 'bs-admin-branding'), 'bsab_section_general');
-		$this->add_checkbox_field('enable_login_css', __('Login-CSS aktivieren', 'bs-admin-branding'), 'bsab_section_general');
-		$this->add_checkbox_field('enable_editor_css', __('Editor-CSS aktivieren', 'bs-admin-branding'), 'bsab_section_general');
 		$this->add_checkbox_field('enable_figtree_font', __('Figtree-Schrift verwenden', 'bs-admin-branding'), 'bsab_section_general');
 		$this->add_checkbox_field('enable_footer_branding', __('Footer-Branding aktivieren', 'bs-admin-branding'), 'bsab_section_general');
 
@@ -86,6 +85,7 @@ final class SettingsPage {
 		$this->add_color_field('color_sidebar_hover', __('Sidebar Hover', 'bs-admin-branding'), 'bsab_section_colors');
 		$this->add_color_field('color_sidebar_hover_text', __('Sidebar Hover Text', 'bs-admin-branding'), 'bsab_section_colors');
 		$this->add_color_field('color_sidebar_active', __('Sidebar Aktiv', 'bs-admin-branding'), 'bsab_section_colors');
+		$this->add_color_field('color_sidebar_active_text', __('Sidebar Aktiv Text', 'bs-admin-branding'), 'bsab_section_colors');
 		$this->add_color_field('color_adminbar_bg', __('Adminbar Hintergrund', 'bs-admin-branding'), 'bsab_section_colors');
 		$this->add_color_field('color_adminbar_text', __('Adminbar Text', 'bs-admin-branding'), 'bsab_section_colors');
 		$this->add_color_field('color_content_bg', __('Seitenhintergrund', 'bs-admin-branding'), 'bsab_section_layout');
@@ -93,6 +93,16 @@ final class SettingsPage {
 		$this->add_color_field('color_card_text', __('Card Text', 'bs-admin-branding'), 'bsab_section_layout');
 		$this->add_color_field('color_accent', __('Akzentfarbe', 'bs-admin-branding'), 'bsab_section_colors');
 		$this->add_color_field('color_accent_hover', __('Akzent Hover', 'bs-admin-branding'), 'bsab_section_colors');
+
+		// Zusätzliche Farbwerte für Rahmen, Tabellen, Texte und Footer
+		$this->add_color_field('color_border', __('Rahmenfarbe', 'bs-admin-branding'), 'bsab_section_colors');
+		$this->add_color_field('color_table_header_bg', __('Tabellen-Header Hintergrund', 'bs-admin-branding'), 'bsab_section_colors');
+		$this->add_color_field('color_table_row_hover', __('Tabellen-Zeile Hover', 'bs-admin-branding'), 'bsab_section_colors');
+		$this->add_color_field('color_text_heading', __('Überschriftentext', 'bs-admin-branding'), 'bsab_section_colors');
+		$this->add_color_field('color_text_input', __('Formular-Text', 'bs-admin-branding'), 'bsab_section_colors');
+		$this->add_color_field('color_button_border_hover', __('Button-Rahmen (Hover)', 'bs-admin-branding'), 'bsab_section_colors');
+		$this->add_color_field('color_footer_bg', __('Footer Hintergrund', 'bs-admin-branding'), 'bsab_section_colors');
+		$this->add_color_field('color_adminbar_hover_bg', __('Adminbar Hover Hintergrund', 'bs-admin-branding'), 'bsab_section_colors');
 
 		$this->add_text_field('footer_text', __('Footer-Text', 'bs-admin-branding'), 'bsab_section_branding');
 		$this->add_text_field('footer_url', __('Footer-URL', 'bs-admin-branding'), 'bsab_section_branding');
@@ -142,7 +152,7 @@ final class SettingsPage {
 		$active_tab = isset($_GET['bsab_tab']) ? sanitize_key((string) $_GET['bsab_tab']) : 'general';
 		$is_admin = current_user_can('manage_options');
 
-		$allowed_tabs = ['general', 'sidebar', 'content', 'branding', 'roles'];
+		$allowed_tabs = ['general', 'layout', 'colors', 'branding', 'roles'];
 		if (!in_array($active_tab, $allowed_tabs, true)) {
 			$active_tab = 'general';
 		}
@@ -172,11 +182,11 @@ final class SettingsPage {
 				<a href="#bsab-tab-general" class="nav-tab <?php echo $active_tab === 'general' ? 'nav-tab-active' : ''; ?>" data-bsab-tab="general" role="tab" aria-selected="<?php echo $active_tab === 'general' ? 'true' : 'false'; ?>" aria-controls="bsab-tab-panel-general" id="bsab-tab-general">
 					<?php echo esc_html__('Allgemein', 'bs-admin-branding'); ?>
 				</a>
-				<a href="#bsab-tab-sidebar" class="nav-tab <?php echo $active_tab === 'sidebar' ? 'nav-tab-active' : ''; ?>" data-bsab-tab="sidebar" role="tab" aria-selected="<?php echo $active_tab === 'sidebar' ? 'true' : 'false'; ?>" aria-controls="bsab-tab-panel-sidebar" id="bsab-tab-sidebar">
-					<?php echo esc_html__('Sidebar', 'bs-admin-branding'); ?>
+				<a href="#bsab-tab-layout" class="nav-tab <?php echo $active_tab === 'layout' ? 'nav-tab-active' : ''; ?>" data-bsab-tab="layout" role="tab" aria-selected="<?php echo $active_tab === 'layout' ? 'true' : 'false'; ?>" aria-controls="bsab-tab-panel-layout" id="bsab-tab-layout">
+					<?php echo esc_html__('Layout', 'bs-admin-branding'); ?>
 				</a>
-				<a href="#bsab-tab-content" class="nav-tab <?php echo $active_tab === 'content' ? 'nav-tab-active' : ''; ?>" data-bsab-tab="content" role="tab" aria-selected="<?php echo $active_tab === 'content' ? 'true' : 'false'; ?>" aria-controls="bsab-tab-panel-content" id="bsab-tab-content">
-					<?php echo esc_html__('Content', 'bs-admin-branding'); ?>
+				<a href="#bsab-tab-colors" class="nav-tab <?php echo $active_tab === 'colors' ? 'nav-tab-active' : ''; ?>" data-bsab-tab="colors" role="tab" aria-selected="<?php echo $active_tab === 'colors' ? 'true' : 'false'; ?>" aria-controls="bsab-tab-panel-colors" id="bsab-tab-colors">
+					<?php echo esc_html__('Farben', 'bs-admin-branding'); ?>
 				</a>
 				<a href="#bsab-tab-branding" class="nav-tab <?php echo $active_tab === 'branding' ? 'nav-tab-active' : ''; ?>" data-bsab-tab="branding" role="tab" aria-selected="<?php echo $active_tab === 'branding' ? 'true' : 'false'; ?>" aria-controls="bsab-tab-panel-branding" id="bsab-tab-branding">
 					<?php echo esc_html__('Branding', 'bs-admin-branding'); ?>
@@ -188,6 +198,7 @@ final class SettingsPage {
 
 			<form method="post" action="options.php">
 				<?php settings_fields('bsab_settings_group'); ?>
+				<input type="hidden" name="bsab_tab" class="bsab-active-tab-input" value="<?php echo esc_attr($active_tab); ?>" />
 
 				<?php submit_button(__('Änderungen speichern', 'bs-admin-branding'), 'primary', 'submit', false, ['class' => 'bsab-submit-top']); ?>
 
@@ -207,16 +218,14 @@ final class SettingsPage {
 						</div>
 					</div>
 
-					<div class="bsab-tab-panel <?php echo $active_tab === 'sidebar' ? 'is-active' : ''; ?>" data-bsab-tab-panel="sidebar" role="tabpanel" aria-labelledby="bsab-tab-sidebar" id="bsab-tab-panel-sidebar" aria-hidden="<?php echo $active_tab === 'sidebar' ? 'false' : 'true'; ?>">
+					<div class="bsab-tab-panel <?php echo $active_tab === 'layout' ? 'is-active' : ''; ?>" data-bsab-tab-panel="layout" role="tabpanel" aria-labelledby="bsab-tab-layout" id="bsab-tab-panel-layout" aria-hidden="<?php echo $active_tab === 'layout' ? 'false' : 'true'; ?>">
 						<div class="bsab-settings-layout">
 							<div class="bsab-settings-column">
 								<div class="bsab-settings-card">
-									<h2><?php echo esc_html__('Sidebar & Menü', 'bs-admin-branding'); ?></h2>
+									<h2><?php echo esc_html__('Layout', 'bs-admin-branding'); ?></h2>
 									<table class="form-table" role="presentation">
 										<tbody>
-										<?php
-										do_settings_fields('bs-admin-branding', 'bsab_section_colors');
-										?>
+										<?php do_settings_fields('bs-admin-branding', 'bsab_section_layout'); ?>
 										</tbody>
 									</table>
 								</div>
@@ -224,14 +233,16 @@ final class SettingsPage {
 						</div>
 					</div>
 
-					<div class="bsab-tab-panel <?php echo $active_tab === 'content' ? 'is-active' : ''; ?>" data-bsab-tab-panel="content" role="tabpanel" aria-labelledby="bsab-tab-content" id="bsab-tab-panel-content" aria-hidden="<?php echo $active_tab === 'content' ? 'false' : 'true'; ?>">
+					<div class="bsab-tab-panel <?php echo $active_tab === 'colors' ? 'is-active' : ''; ?>" data-bsab-tab-panel="colors" role="tabpanel" aria-labelledby="bsab-tab-colors" id="bsab-tab-panel-colors" aria-hidden="<?php echo $active_tab === 'colors' ? 'false' : 'true'; ?>">
 						<div class="bsab-settings-layout">
 							<div class="bsab-settings-column">
 								<div class="bsab-settings-card">
-									<h2><?php echo esc_html__('Content & Layout', 'bs-admin-branding'); ?></h2>
+									<h2><?php echo esc_html__('Farben', 'bs-admin-branding'); ?></h2>
 									<table class="form-table" role="presentation">
 										<tbody>
-										<?php do_settings_fields('bs-admin-branding', 'bsab_section_layout'); ?>
+										<?php
+										$this->render_colors_table();
+										?>
 										</tbody>
 									</table>
 								</div>
@@ -423,11 +434,6 @@ final class SettingsPage {
 						<?php checked($value, '1'); ?>
 					/>
 				</label>
-				<?php if ($key === 'enable_login_css' || $key === 'enable_editor_css') : ?>
-					<p class="description">
-						<?php echo esc_html__('Diese Option ist in der aktuellen Version als Vorbereitung vorgesehen und hat möglicherweise noch keinen sichtbaren Effekt.', 'bs-admin-branding'); ?>
-					</p>
-				<?php endif; ?>
 				<?php
 			},
 			'bs-admin-branding',
@@ -476,6 +482,78 @@ final class SettingsPage {
 					<?php endif; ?>
 				/>
 				<?php
+				switch ($key) {
+					case 'color_sidebar_bg':
+						echo '<p class="description">' . esc_html__('Hintergrundfarbe der Sidebar.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_sidebar_submenu_bg':
+						echo '<p class="description">' . esc_html__('Hintergrund des aufgeklappten Untermenüs.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_sidebar_submenu_hover_bg':
+						echo '<p class="description">' . esc_html__('Hover-Hintergrund im Untermenü.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_sidebar_text':
+						echo '<p class="description">' . esc_html__('Textfarbe der Menüpunkte in der Sidebar.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_sidebar_hover':
+						echo '<p class="description">' . esc_html__('Hintergrundfarbe beim Hover über einen Menüpunkt.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_sidebar_hover_text':
+						echo '<p class="description">' . esc_html__('Textfarbe beim Hover über einen Menüpunkt.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_sidebar_active':
+						echo '<p class="description">' . esc_html__('Hintergrundfarbe des aktuell aktiven Menüpunkts.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_sidebar_active_text':
+						echo '<p class="description">' . esc_html__('Textfarbe des aktuell aktiven Menüpunkts.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_adminbar_bg':
+						echo '<p class="description">' . esc_html__('Hintergrundfarbe der oberen Admin-Leiste.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_adminbar_text':
+						echo '<p class="description">' . esc_html__('Textfarbe in der Admin-Leiste.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_adminbar_hover_bg':
+						echo '<p class="description">' . esc_html__('Hover-Hintergrund in der Admin-Leiste.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_content_bg':
+						echo '<p class="description">' . esc_html__('Hintergrundfarbe des Content-Bereichs (außerhalb von Cards).', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_card_bg':
+						echo '<p class="description">' . esc_html__('Hintergrundfarbe von Cards und Metaboxen.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_card_text':
+						echo '<p class="description">' . esc_html__('Textfarbe innerhalb von Cards und Metaboxen.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_text_heading':
+						echo '<p class="description">' . esc_html__('Farbe von Überschriften (h1, h2) im Content-Bereich.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_accent':
+						echo '<p class="description">' . esc_html__('Primärfarbe für Buttons, Links und aktive Zustände.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_accent_hover':
+						echo '<p class="description">' . esc_html__('Hover-Farbe für Buttons und Links.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_button_border_hover':
+						echo '<p class="description">' . esc_html__('Rahmenfarbe für sekundäre Buttons beim Hover.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_border':
+						echo '<p class="description">' . esc_html__('Allgemeine Rahmenfarbe für Sidebar, Admin-Leiste, Cards und Footer.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_table_header_bg':
+						echo '<p class="description">' . esc_html__('Hintergrundfarbe der Tabellen-Kopfzeile.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_table_row_hover':
+						echo '<p class="description">' . esc_html__('Hover-Hintergrundfarbe für Tabellenzeilen.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_text_input':
+						echo '<p class="description">' . esc_html__('Textfarbe in Eingabefeldern und Dropdowns.', 'bs-admin-branding') . '</p>';
+						break;
+					case 'color_footer_bg':
+						echo '<p class="description">' . esc_html__('Hintergrundfarbe des Admin-Footers.', 'bs-admin-branding') . '</p>';
+						break;
+				}
+				<?php
 			},
 			'bs-admin-branding',
 			$section
@@ -486,6 +564,110 @@ final class SettingsPage {
 		$saved = get_option(Defaults::OPTION_KEY, []);
 
 		return Defaults::merge(is_array($saved) ? $saved : []);
+	}
+
+	public function filter_redirect_post_location(string $location, int $status): string {
+		if (!isset($_POST['option_page'], $_POST['bsab_tab'])) {
+			return $location;
+		}
+
+		if ((string) $_POST['option_page'] !== 'bsab_settings_group') {
+			return $location;
+		}
+
+		$tab = sanitize_key((string) $_POST['bsab_tab']);
+		if ($tab === '') {
+			return $location;
+		}
+
+		return add_query_arg('bsab_tab', $tab, $location);
+	}
+
+	private function render_colors_table(): void {
+		global $wp_settings_fields;
+
+		$sections = $wp_settings_fields['bs-admin-branding']['bsab_section_colors'] ?? [];
+
+		$groups = [
+			[
+				'title'  => __('Sidebar & Menü', 'bs-admin-branding'),
+				'fields' => [
+					'color_sidebar_bg',
+					'color_sidebar_submenu_bg',
+					'color_sidebar_submenu_hover_bg',
+					'color_sidebar_text',
+					'color_sidebar_hover',
+					'color_sidebar_hover_text',
+					'color_sidebar_active',
+					'color_sidebar_active_text',
+				],
+			],
+			[
+				'title'  => __('Admin-Leiste', 'bs-admin-branding'),
+				'fields' => [
+					'color_adminbar_bg',
+					'color_adminbar_text',
+					'color_adminbar_hover_bg',
+				],
+			],
+			[
+				'title'  => __('Content & Cards', 'bs-admin-branding'),
+				'fields' => [
+					'color_content_bg',
+					'color_card_bg',
+					'color_card_text',
+					'color_text_heading',
+				],
+			],
+			[
+				'title'  => __('Akzent & Buttons', 'bs-admin-branding'),
+				'fields' => [
+					'color_accent',
+					'color_accent_hover',
+					'color_button_border_hover',
+				],
+			],
+			[
+				'title'  => __('Rahmen & Tabellen', 'bs-admin-branding'),
+				'fields' => [
+					'color_border',
+					'color_table_header_bg',
+					'color_table_row_hover',
+					'color_text_input',
+				],
+			],
+			[
+				'title'  => __('Footer', 'bs-admin-branding'),
+				'fields' => [
+					'color_footer_bg',
+				],
+			],
+		];
+
+		foreach ($groups as $group) {
+			echo '<tr><td colspan="2"><h3>' . esc_html($group['title']) . '</h3></td></tr>';
+			foreach ($group['fields'] as $field_id) {
+				$this->render_settings_field_row($sections, $field_id);
+			}
+		}
+	}
+
+	/**
+	 * @param array<string, array{id:string,title:string,callback:callable,args:mixed}> $sections
+	 */
+	private function render_settings_field_row(array $sections, string $field_id): void {
+		if (!isset($sections[$field_id])) {
+			return;
+		}
+
+		$field = $sections[$field_id];
+
+		echo '<tr>';
+		echo '<th scope="row">' . esc_html($field['title']) . '</th>';
+		echo '<td>';
+		call_user_func($field['callback'], $field['args']);
+		echo '</td>';
+		echo '</tr>';
 	}
 
 	private function get_css_variables_for_color_key(string $key): string {
@@ -504,6 +686,8 @@ final class SettingsPage {
 				return '--sidebar-hover-text,--bsab-sidebar-hover-text';
 			case 'color_sidebar_active':
 				return '--sidebar-active,--bsab-sidebar-active';
+			case 'color_sidebar_active_text':
+				return '--sidebar-active-text,--bsab-sidebar-active-text';
 			case 'color_adminbar_bg':
 				return '--adminbar-bg,--bsab-adminbar-bg';
 			case 'color_adminbar_text':
@@ -518,6 +702,22 @@ final class SettingsPage {
 				return '--accent,--bsab-accent';
 			case 'color_accent_hover':
 				return '--accent-hover,--bsab-accent-hover';
+			case 'color_border':
+				return '--sidebar-border,--adminbar-border,--bsab-border';
+			case 'color_table_header_bg':
+				return '--bsab-table-header-bg';
+			case 'color_table_row_hover':
+				return '--bsab-table-row-hover';
+			case 'color_text_heading':
+				return '--bsab-text-heading';
+			case 'color_text_input':
+				return '--bsab-text-input';
+			case 'color_button_border_hover':
+				return '--bsab-button-border-hover';
+			case 'color_footer_bg':
+				return '--bsab-footer-bg';
+			case 'color_adminbar_hover_bg':
+				return '--adminbar-hover-bg,--bsab-adminbar-hover-bg';
 			default:
 				return '';
 		}

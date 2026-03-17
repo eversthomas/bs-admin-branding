@@ -302,7 +302,7 @@ body #wpbody-content {
 .wrap h2 {
     font-family: var(--custom-font);
     font-weight: 600;
-    color: #111827;
+    color: var(--bsab-text-heading);
 }
 
 .wrap a {
@@ -343,7 +343,7 @@ body #wpbody-content {
 
 .wp-core-ui .button:hover,
 .wp-core-ui .button-secondary:hover {
-    border-color: #9ca3af !important;
+    border-color: var(--bsab-button-border-hover) !important;
     color: var(--sidebar-active-text) !important;
 }
 
@@ -364,7 +364,7 @@ select {
     border-color: var(--sidebar-border) !important;
     border-radius: 6px;
     background: var(--content-bg) !important;
-    color: #111827 !important;
+    color: var(--bsab-text-input) !important;
 }
 
 input[type="text"]:focus,
@@ -397,15 +397,15 @@ input[type="radio"]:checked {
 
 .widefat thead tr th,
 .widefat tfoot tr th {
-    background: #f9fafb;
+    background: var(--bsab-table-header-bg);
     border-bottom: 1px solid var(--sidebar-border);
     font-weight: 600;
-    color: #111827;
+    color: var(--bsab-text-heading);
 }
 
 .widefat tr:hover td,
 .widefat tr:hover th {
-    background: #f9fafb !important;
+    background: var(--bsab-table-row-hover) !important;
 }
 
 .striped > tbody > :nth-child(odd),
@@ -566,5 +566,154 @@ div.error {
 
 div#wpfooter {
     position: fixed;
-    background: #ffffff;
+    background: var(--bsab-footer-bg);
+}
+
+/* -----------------------------------------------------------------------------
+   18. SCREEN OPTIONS & HILFE-TAB
+   ----------------------------------------------------------------------------- */
+
+#screen-meta {
+    background: var(--card-bg);
+    border: 1px solid var(--bsab-border);
+    border-top: none;
+    font-family: var(--custom-font);
+    color: var(--card-text);
+}
+
+#screen-meta-links .show-settings {
+    color: var(--sidebar-text);
+    border-color: var(--bsab-border);
+    background: var(--card-bg);
+    font-family: var(--custom-font);
+}
+
+#screen-meta-links .show-settings:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.metabox-prefs label,
+.screen-per-page label,
+.screen-layout label {
+    font-family: var(--custom-font);
+    color: var(--card-text);
+}
+
+/* -----------------------------------------------------------------------------
+   19. MEDIEN-UPLOADER
+   ----------------------------------------------------------------------------- */
+
+.media-frame,
+.media-frame-content,
+.media-frame-router {
+    background: var(--content-bg);
+    font-family: var(--custom-font);
+}
+
+.media-sidebar {
+    background: var(--card-bg);
+    border-left: 1px solid var(--bsab-border);
+}
+
+.media-toolbar,
+.media-frame-toolbar .media-toolbar {
+    background: var(--card-bg);
+    border-top: 1px solid var(--bsab-border);
+}
+
+.media-frame-menu .media-menu-item {
+    color: var(--sidebar-text);
+    font-family: var(--custom-font);
+}
+
+.media-frame-menu .media-menu-item:hover,
+.media-frame-menu .media-menu-item:focus {
+    color: var(--accent);
+}
+
+.media-frame-menu .active {
+    color: var(--accent) !important;
+    border-left-color: var(--accent) !important;
+}
+
+.attachment-details .setting label,
+.attachment-details .setting span {
+    color: var(--card-text);
+    font-family: var(--custom-font);
+}
+
+/* -----------------------------------------------------------------------------
+   20. JQUERY-UI-DIALOGE
+   ----------------------------------------------------------------------------- */
+
+.ui-dialog {
+    background: var(--card-bg);
+    border: 1px solid var(--bsab-border) !important;
+    border-radius: var(--border-radius) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+    font-family: var(--custom-font);
+}
+
+.ui-dialog-titlebar {
+    background: var(--card-bg) !important;
+    border-bottom: 1px solid var(--bsab-border) !important;
+    color: var(--card-text) !important;
+    font-family: var(--custom-font);
+    font-weight: 600;
+    border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+}
+
+.ui-dialog-content {
+    color: var(--card-text);
+    font-family: var(--custom-font);
+}
+
+.ui-dialog-buttonpane {
+    background: var(--content-bg) !important;
+    border-top: 1px solid var(--bsab-border) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   21. WP-POINTER (TOOLTIPS)
+   ----------------------------------------------------------------------------- */
+
+.wp-pointer .wp-pointer-content {
+    background: var(--card-bg);
+    border: 1px solid var(--bsab-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-family: var(--custom-font);
+    color: var(--card-text);
+}
+
+.wp-pointer .wp-pointer-content h3 {
+    background: var(--sidebar-active-bg);
+    color: var(--sidebar-active-text);
+    font-family: var(--custom-font);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.wp-pointer-arrow-inner {
+    border-bottom-color: var(--card-bg) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   22. AUTH-CHECK-MODAL (SESSION-ABLAUF)
+   ----------------------------------------------------------------------------- */
+
+#wp-auth-check-wrap #wp-auth-check {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+#wp-auth-check-wrap .wp-auth-check-close {
+    background: var(--sidebar-active-bg);
+    color: var(--sidebar-active-text);
+}
+
+#wp-auth-check-wrap .wp-auth-check-close:hover {
+    background: var(--accent);
+    color: #ffffff;
 }

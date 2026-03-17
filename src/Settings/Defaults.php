@@ -30,6 +30,7 @@ final class Defaults {
 			'color_sidebar_hover'      => '#2563eb',
 			'color_sidebar_hover_text' => '#111827',
 			'color_sidebar_active'     => '#1d4ed8',
+			'color_sidebar_active_text'=> '#111827',
 
 			'color_adminbar_bg'        => '#ffffff',
 			'color_adminbar_text'      => '#1d2327',
@@ -40,6 +41,16 @@ final class Defaults {
 
 			'color_accent'             => '#2563eb',
 			'color_accent_hover'       => '#1d4ed8',
+
+			// Zusätzliche Farbwerte für Rahmen, Tabellen, Texte und Footer
+			'color_border'             => '#e5e7eb',
+			'color_table_header_bg'    => '#f9fafb',
+			'color_table_row_hover'    => '#f9fafb',
+			'color_text_heading'       => '#111827',
+			'color_text_input'         => '#111827',
+			'color_button_border_hover'=> '#9ca3af',
+			'color_footer_bg'          => '#ffffff',
+			'color_adminbar_hover_bg'  => '#e5effe',
 
 			'footer_text'              => 'Gestaltet mit BS Admin Branding',
 			'footer_url'               => 'https://bezugssysteme.de',

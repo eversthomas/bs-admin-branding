@@ -40,6 +40,41 @@ final class Assets {
 			[],
 			(string) filemtime($css_file)
 		);
+
+		if (($settings['enable_figtree_font'] ?? '1') === '1') {
+			$fonts_url = BSAB_URL . 'assets/fonts/';
+			$font_face_css = "
+@font-face {
+	font-family: 'Figtree';
+	src: url('{$fonts_url}figtree-v9-latin-regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Figtree';
+	src: url('{$fonts_url}figtree-v9-latin-italic.woff2') format('woff2');
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Figtree';
+	src: url('{$fonts_url}figtree-v9-latin-600.woff2') format('woff2');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Figtree';
+	src: url('{$fonts_url}figtree-v9-latin-600italic.woff2') format('woff2');
+	font-weight: 600;
+	font-style: italic;
+	font-display: swap;
+}
+";
+			wp_add_inline_style('bsab-admin', $font_face_css);
+		}
 	}
 
 	public function enqueue_login_assets(): void {
@@ -95,7 +130,7 @@ final class Assets {
 		$font_stack_system = '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif';
 		$font_stack = $use_figtree ? $font_stack_figtree : $font_stack_system;
 
-		/* Plugin-Variablen */
+		/* === Primäre BSAB-Variablen === */
 		echo '--bsab-font-family:' . $font_stack . ';';
 		echo '--bsab-sidebar-width:' . esc_attr($settings['sidebar_width']) . ';';
 		echo '--bsab-content-max-width:' . esc_attr($settings['content_max_width']) . ';';
@@ -108,6 +143,7 @@ final class Assets {
 		echo '--bsab-sidebar-hover:' . esc_attr($settings['color_sidebar_hover']) . ';';
 		echo '--bsab-sidebar-hover-text:' . esc_attr($settings['color_sidebar_hover_text']) . ';';
 		echo '--bsab-sidebar-active:' . esc_attr($settings['color_sidebar_active']) . ';';
+		echo '--bsab-sidebar-active-text:' . esc_attr($settings['color_sidebar_active_text']) . ';';
 
 		echo '--bsab-adminbar-bg:' . esc_attr($settings['color_adminbar_bg']) . ';';
 		echo '--bsab-adminbar-text:' . esc_attr($settings['color_adminbar_text']) . ';';
@@ -119,7 +155,17 @@ final class Assets {
 		echo '--bsab-accent:' . esc_attr($settings['color_accent']) . ';';
 		echo '--bsab-accent-hover:' . esc_attr($settings['color_accent_hover']) . ';';
 
-		/* Kompatibilitäts-Variablen für bestehendes CSS */
+		// Zusätzliche BSAB-Variablen für Rahmen, Tabellen, Texte und Footer
+		echo '--bsab-border:' . esc_attr($settings['color_border']) . ';';
+		echo '--bsab-table-header-bg:' . esc_attr($settings['color_table_header_bg']) . ';';
+		echo '--bsab-table-row-hover:' . esc_attr($settings['color_table_row_hover']) . ';';
+		echo '--bsab-text-heading:' . esc_attr($settings['color_text_heading']) . ';';
+		echo '--bsab-text-input:' . esc_attr($settings['color_text_input']) . ';';
+		echo '--bsab-button-border-hover:' . esc_attr($settings['color_button_border_hover']) . ';';
+		echo '--bsab-footer-bg:' . esc_attr($settings['color_footer_bg']) . ';';
+		echo '--bsab-adminbar-hover-bg:' . esc_attr($settings['color_adminbar_hover_bg']) . ';';
+
+		/* === Kompatibilitäts-Aliases === */
 		echo '--font-family:' . $font_stack . ';';
 		echo '--custom-font:' . $font_stack . ';';
 		echo '--sidebar-width:' . esc_attr($settings['sidebar_width']) . ';';
@@ -131,20 +177,21 @@ final class Assets {
 		echo '--sidebar-bg-sub:' . esc_attr($settings['color_sidebar_submenu_bg']) . ';';
 		echo '--sidebar-submenu-hover-bg:' . esc_attr($settings['color_sidebar_submenu_hover_bg']) . ';';
 		echo '--sidebar-text:' . esc_attr($settings['color_sidebar_text']) . ';';
-		echo '--sidebar-text-sub:' . esc_attr($settings['color_sidebar_text']) . ';';
+		echo '--sidebar-text-sub:' . esc_attr($settings['color_sidebar_text']) . ';' // Alias
 		echo '--sidebar-hover:' . esc_attr($settings['color_sidebar_hover']) . ';';
 		echo '--sidebar-hover-bg:' . esc_attr($settings['color_sidebar_hover']) . ';';
 		echo '--sidebar-hover-text:' . esc_attr($settings['color_sidebar_hover_text']) . ';';
 		echo '--sidebar-active:' . esc_attr($settings['color_sidebar_active']) . ';';
 		echo '--sidebar-active-bg:' . esc_attr($settings['color_sidebar_active']) . ';';
-		echo '--sidebar-active-text:' . esc_attr($settings['color_sidebar_hover_text']) . ';';
-		echo '--sidebar-border:#e5e7eb;';
+		echo '--sidebar-active-text:' . esc_attr($settings['color_sidebar_active_text']) . ';';
+		// Kompatibilitäts-Aliases
+		echo '--sidebar-border:' . esc_attr($settings['color_border']) . ';';
 
 		echo '--adminbar-bg:' . esc_attr($settings['color_adminbar_bg']) . ';';
 		echo '--adminbar-text:' . esc_attr($settings['color_adminbar_text']) . ';';
-		echo '--adminbar-text-sub:' . esc_attr($settings['color_adminbar_text']) . ';';
-		echo '--adminbar-border:#e5e7eb;';
-		echo '--adminbar-hover-bg:' . esc_attr($settings['color_sidebar_hover']) . ';';
+		echo '--adminbar-text-sub:' . esc_attr($settings['color_adminbar_text']) . ';' // Alias
+		echo '--adminbar-border:' . esc_attr($settings['color_border']) . ';';
+		echo '--adminbar-hover-bg:' . esc_attr($settings['color_adminbar_hover_bg']) . ';';
 
 		echo '--body-bg:' . esc_attr($settings['color_content_bg']) . ';';
 		echo '--content-bg:' . esc_attr($settings['color_content_bg']) . ';';
@@ -174,6 +221,7 @@ final class Assets {
 		$font_stack_system = '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif';
 		$font_stack = $use_figtree ? $font_stack_figtree : $font_stack_system;
 
+		// Hinweis: Siehe admin.css für die Liste der verwendeten Variablen.
 		$css = ':root{'
 			. '--bsab-font-family:' . $font_stack . ';'
 			. '--bsab-sidebar-width:' . esc_attr($settings['sidebar_width']) . ';'
@@ -186,6 +234,7 @@ final class Assets {
 			. '--bsab-sidebar-hover:' . esc_attr($settings['color_sidebar_hover']) . ';'
 			. '--bsab-sidebar-hover-text:' . esc_attr($settings['color_sidebar_hover_text']) . ';'
 			. '--bsab-sidebar-active:' . esc_attr($settings['color_sidebar_active']) . ';'
+			. '--bsab-sidebar-active-text:' . esc_attr($settings['color_sidebar_active_text']) . ';'
 			. '--bsab-adminbar-bg:' . esc_attr($settings['color_adminbar_bg']) . ';'
 			. '--bsab-adminbar-text:' . esc_attr($settings['color_adminbar_text']) . ';'
 			. '--bsab-content-bg:' . esc_attr($settings['color_content_bg']) . ';'
@@ -193,6 +242,14 @@ final class Assets {
 			. '--bsab-card-text:' . esc_attr($settings['color_card_text']) . ';'
 			. '--bsab-accent:' . esc_attr($settings['color_accent']) . ';'
 			. '--bsab-accent-hover:' . esc_attr($settings['color_accent_hover']) . ';'
+			. '--bsab-border:' . esc_attr($settings['color_border']) . ';'
+			. '--bsab-table-header-bg:' . esc_attr($settings['color_table_header_bg']) . ';'
+			. '--bsab-table-row-hover:' . esc_attr($settings['color_table_row_hover']) . ';'
+			. '--bsab-text-heading:' . esc_attr($settings['color_text_heading']) . ';'
+			. '--bsab-text-input:' . esc_attr($settings['color_text_input']) . ';'
+			. '--bsab-button-border-hover:' . esc_attr($settings['color_button_border_hover']) . ';'
+			. '--bsab-footer-bg:' . esc_attr($settings['color_footer_bg']) . ';'
+			. '--bsab-adminbar-hover-bg:' . esc_attr($settings['color_adminbar_hover_bg']) . ';'
 
 			. '--font-family:' . $font_stack . ';'
 			. '--custom-font:' . $font_stack . ';'
@@ -204,19 +261,19 @@ final class Assets {
 			. '--sidebar-bg-sub:' . esc_attr($settings['color_sidebar_submenu_bg']) . ';'
 			. '--sidebar-submenu-hover-bg:' . esc_attr($settings['color_sidebar_submenu_hover_bg']) . ';'
 			. '--sidebar-text:' . esc_attr($settings['color_sidebar_text']) . ';'
-			. '--sidebar-text-sub:' . esc_attr($settings['color_sidebar_text']) . ';'
+			. '--sidebar-text-sub:' . esc_attr($settings['color_sidebar_text']) . ';' // Alias
 			. '--sidebar-hover:' . esc_attr($settings['color_sidebar_hover']) . ';'
 			. '--sidebar-hover-bg:' . esc_attr($settings['color_sidebar_hover']) . ';'
 			. '--sidebar-hover-text:' . esc_attr($settings['color_sidebar_hover_text']) . ';'
 			. '--sidebar-active:' . esc_attr($settings['color_sidebar_active']) . ';'
 			. '--sidebar-active-bg:' . esc_attr($settings['color_sidebar_active']) . ';'
-			. '--sidebar-active-text:' . esc_attr($settings['color_sidebar_hover_text']) . ';'
-			. '--sidebar-border:#e5e7eb;'
+			. '--sidebar-active-text:' . esc_attr($settings['color_sidebar_active_text']) . ';'
+			. '--sidebar-border:' . esc_attr($settings['color_border']) . ';'
 			. '--adminbar-bg:' . esc_attr($settings['color_adminbar_bg']) . ';'
 			. '--adminbar-text:' . esc_attr($settings['color_adminbar_text']) . ';'
 			. '--adminbar-text-sub:' . esc_attr($settings['color_adminbar_text']) . ';'
-			. '--adminbar-border:#e5e7eb;'
-			. '--adminbar-hover-bg:' . esc_attr($settings['color_sidebar_hover']) . ';'
+			. '--adminbar-border:' . esc_attr($settings['color_border']) . ';'
+			. '--adminbar-hover-bg:' . esc_attr($settings['color_adminbar_hover_bg']) . ';'
 			. '--body-bg:' . esc_attr($settings['color_content_bg']) . ';'
 			. '--content-bg:' . esc_attr($settings['color_content_bg']) . ';'
 			. '--card-bg:' . esc_attr($settings['color_card_bg']) . ';'
