@@ -1,0 +1,120 @@
+ .bsab-settings-layout {
+ 	display: grid;
+ 	grid-template-columns: 1fr;
+ 	gap: 24px;
+ 	margin-top: 24px;
+ }
+
+ @media screen and (min-width: 960px) {
+ 	.bsab-settings-layout {
+ 		grid-template-columns: repeat(2, minmax(0, 1fr));
+ 		align-items: flex-start;
+ 	}
+ }
+
+ .bsab-settings-column {
+ 	display: flex;
+ 	flex-direction: column;
+ 	gap: 24px;
+ }
+
+ .bsab-settings-card {
+ 	background: #ffffff;
+ 	border-radius: 12px;
+ 	border: 1px solid #e5e7eb;
+ 	box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+ 	padding: 20px 24px;
+ }
+
+ .bsab-settings-card h2 {
+ 	margin-top: 0;
+ 	margin-bottom: 16px;
+ }
+
+ .bsab-settings-card .form-table {
+ 	margin-top: 0;
+ }
+
+.bsab-settings-card .form-table td,
+.bsab-settings-card .form-table th {
+	vertical-align: top;
+}
+
+ .bsab-settings-page .form-table th {
+ 	width: 220px;
+ }
+
+.bsab-settings-card .regular-text,
+.bsab-settings-card input[type="text"],
+.bsab-settings-card select,
+.bsab-settings-card textarea {
+	box-sizing: border-box;
+	max-width: 100%;
+	width: 100%;
+}
+
+.bsab-settings-card .bsab-color-field {
+	max-width: 260px;
+}
+
+ @media screen and (max-width: 782px) {
+ 	.bsab-settings-page .form-table th {
+ 		width: 100%;
+ 		display: block;
+ 	}
+
+ 	.bsab-settings-page .form-table td {
+ 		display: block;
+ 		padding-left: 0;
+ 	}
+ }
+
+ .bsab-settings-page .wp-picker-container .wp-color-result {
+ 	box-shadow: none;
+ 	border-radius: 999px;
+ }
+
+ .bsab-settings-page .wp-picker-container .wp-color-result-text {
+ 	font-size: 12px;
+ }
+
+ .bsab-tab-panels {
+ 	margin-top: 12px;
+ }
+
+ .bsab-tab-panel {
+ 	display: none;
+ }
+
+ .bsab-tab-panel.is-active {
+ 	display: block;
+ }
+
+.bsab-tabs.nav-tab-wrapper {
+	border-bottom: 1px solid #dcdcde;
+	margin-bottom: 0;
+	padding-top: 0;
+}
+
+.bsab-tabs .nav-tab {
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-bottom: none;
+	border-radius: 12px 12px 0 0;
+	color: #374151;
+	margin-right: 8px;
+	padding: 10px 14px;
+	font-weight: 600;
+}
+
+.bsab-tabs .nav-tab:hover {
+	background: #ffffff;
+	color: #111827;
+}
+
+.bsab-tabs .nav-tab.nav-tab-active {
+	background: #ffffff;
+	border-bottom: 1px solid #ffffff;
+	color: #111827;
+}
+

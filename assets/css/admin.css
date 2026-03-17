@@ -1,0 +1,597 @@
+/* =============================================================================
+   CUSTOM WP ADMIN THEME – Helles ChatGPT-ähnliches Design
+   Einbinden via functions.php mit add_action('admin_enqueue_scripts', ...)
+   ============================================================================= */
+
+/* figtree-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/figtree-v9-latin-regular.woff2') format('woff2');
+}
+/* figtree-italic - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Figtree';
+  font-style: italic;
+  font-weight: 400;
+  src: url('../fonts/figtree-v9-latin-italic.woff2') format('woff2');
+}
+/* figtree-600 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/figtree-v9-latin-600.woff2') format('woff2');
+}
+/* figtree-600italic - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Figtree';
+  font-style: italic;
+  font-weight: 600;
+  src: url('../fonts/figtree-v9-latin-600italic.woff2') format('woff2');
+}
+
+
+/* -----------------------------------------------------------------------------
+   1. CUSTOM PROPERTIES – werden vom Plugin per CSS-Variablen gesetzt
+   ----------------------------------------------------------------------------- */
+
+
+/* -----------------------------------------------------------------------------
+   2. GRUNDLAYOUT & BODY
+   ----------------------------------------------------------------------------- */
+
+html,
+body.wp-admin {
+    font-family: var(--custom-font, var(--font-family)) !important;
+    font-size: 16px;
+    background: var(--body-bg) !important;
+}
+
+body #wpwrap {
+    background: var(--body-bg);
+}
+
+body #wpcontent {
+    background: var(--content-bg);
+    padding-left: 20px;
+}
+
+body #wpfooter {
+    border-top: 1px solid var(--sidebar-border);
+    color: var(--sidebar-text-sub);
+    font-family: var(--custom-font);
+}
+
+
+/* -----------------------------------------------------------------------------
+   3. SIDEBAR – Grundstruktur
+   Breite nur ab 783px – darunter übernimmt WordPress die Kontrolle
+   ----------------------------------------------------------------------------- */
+
+body #adminmenuback,
+body #adminmenuwrap,
+body #adminmenu {
+    background: var(--sidebar-bg) !important;
+    border-right: 1px solid var(--sidebar-border);
+}
+
+@media screen and (min-width: 783px) {
+    body #adminmenuback,
+    body #adminmenuwrap,
+    body #adminmenu {
+        width: var(--sidebar-width) !important;
+    }
+
+    body #wpcontent,
+    body #wpfooter {
+        margin-left: var(--sidebar-width) !important;
+    }
+}
+
+/* Submenu-Flyout */
+#adminmenu .wp-submenu {
+    background: var(--sidebar-bg-sub) !important;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid var(--sidebar-border) !important;
+    border-left-width: 3px !important;
+}
+
+/* Submenu im aufgeklappten Zustand (kein Flyout) */
+#adminmenu .wp-has-current-submenu .wp-submenu,
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu,
+#adminmenu a.wp-has-current-submenu:focus + .wp-submenu {
+    background: var(--sidebar-bg-sub) !important;
+    box-shadow: none !important;
+    border: none !important;
+    width: 100%;
+}
+
+
+/* -----------------------------------------------------------------------------
+   4. SIDEBAR – Menüpunkte & Text
+   ----------------------------------------------------------------------------- */
+
+#adminmenu a,
+#adminmenu li.menu-top > a {
+    color: var(--sidebar-text) !important;
+    font-family: var(--custom-font);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#adminmenu div.wp-menu-image:before,
+div.wp-menu-image:before {
+    color: var(--sidebar-text-sub) !important;
+}
+
+#adminmenu div.wp-menu-name {
+    color: var(--sidebar-text);
+    font-family: var(--custom-font);
+    font-size: 16px;
+}
+
+#adminmenu .wp-submenu a,
+#adminmenu .wp-has-current-submenu .wp-submenu a,
+#adminmenu .wp-submenu .wp-submenu-head {
+    color: var(--sidebar-text-sub) !important;
+    font-family: var(--custom-font);
+    font-size: 16px;
+}
+
+#adminmenu .wp-submenu .wp-submenu-head {
+    color: var(--sidebar-text) !important;
+    font-weight: 500;
+    border-color: var(--sidebar-border) !important;
+}
+
+#adminmenu li.wp-menu-separator > div.separator {
+    background: var(--sidebar-border);
+}
+
+
+/* -----------------------------------------------------------------------------
+   5. SIDEBAR – Hover & Fokus
+   ----------------------------------------------------------------------------- */
+
+#adminmenu a:hover,
+#adminmenu li.menu-top:hover > a,
+#adminmenu li.opensub > a.menu-top,
+#adminmenu li > a.menu-top:focus {
+    color: var(--sidebar-hover-text, var(--sidebar-active-text)) !important;
+    background-color: var(--sidebar-hover-bg) !important;
+    box-shadow: none !important;
+}
+
+#adminmenu li.menu-top:hover div.wp-menu-image:before,
+#adminmenu li.opensub > a.menu-top div.wp-menu-image:before,
+#adminmenu li:hover div.wp-menu-image:before,
+#adminmenu li a:focus div.wp-menu-image:before {
+    color: var(--sidebar-hover-text, var(--sidebar-active-text)) !important;
+}
+
+#adminmenu .wp-submenu a:hover,
+#adminmenu .wp-submenu a:focus {
+    color: var(--sidebar-active-text) !important;
+    background: var(--sidebar-submenu-hover-bg, var(--sidebar-hover-bg)) !important;
+}
+
+#adminmenu a:focus,
+#adminmenu a:hover {
+    box-shadow: none !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   6. SIDEBAR – Aktiver / aktueller Menüpunkt
+   ----------------------------------------------------------------------------- */
+
+#adminmenu li.current a.menu-top,
+#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
+#adminmenu li.wp-has-current-submenu .wp-submenu .wp-submenu-head,
+.folded #adminmenu li.current.menu-top {
+    color: var(--sidebar-active-text) !important;
+    background: var(--sidebar-active-bg) !important;
+    font-weight: 500;
+}
+
+#adminmenu li.wp-has-current-submenu div.wp-menu-image:before,
+#adminmenu .current div.wp-menu-image:before,
+#adminmenu li.wp-has-current-submenu.opensub div.wp-menu-image:before {
+    color: var(--sidebar-active-text) !important;
+}
+
+#adminmenu .wp-submenu li.current a,
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a,
+#adminmenu a.wp-has-current-submenu:focus + .wp-submenu li.current a {
+    color: var(--accent) !important;
+    font-weight: 500;
+}
+
+ul#adminmenu a.wp-has-current-submenu:after,
+ul#adminmenu > li.current > a.current:after {
+    border-right-color: var(--content-bg) !important;
+}
+
+#adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after,
+#adminmenu li.wp-has-submenu.wp-not-current-submenu:focus-within:after {
+    border-right-color: var(--sidebar-bg-sub) !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   7. SIDEBAR – Notification Bubbles
+   ----------------------------------------------------------------------------- */
+
+#adminmenu .menu-counter,
+#adminmenu .awaiting-mod,
+#adminmenu .update-plugins {
+    background: var(--accent) !important;
+    color: #ffffff !important;
+}
+
+#adminmenu li.current a .awaiting-mod,
+#adminmenu li a.wp-has-current-submenu .update-plugins {
+    background: var(--accent) !important;
+    color: #ffffff !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   8. SIDEBAR – Collapse-Button
+   ----------------------------------------------------------------------------- */
+
+#collapse-button {
+    color: var(--sidebar-text-sub) !important;
+}
+
+#collapse-button:hover,
+#collapse-button:focus {
+    color: var(--sidebar-active-text) !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   9. ADMIN BAR (oben)
+   ----------------------------------------------------------------------------- */
+
+body #wpadminbar {
+    background: var(--adminbar-bg) !important;
+    border-bottom: 1px solid var(--adminbar-border);
+}
+
+#wpadminbar .ab-item,
+#wpadminbar a.ab-item,
+#wpadminbar > #wp-toolbar span.ab-label,
+#wpadminbar > #wp-toolbar span.noticon {
+    color: var(--adminbar-text) !important;
+    font-family: var(--custom-font);
+}
+
+#wpadminbar .ab-icon,
+#wpadminbar .ab-icon:before,
+#wpadminbar .ab-item:before,
+#wpadminbar .ab-item:after {
+    color: var(--adminbar-text-sub) !important;
+}
+
+/* Adminbar: Hover */
+#wpadminbar:not(.mobile) .ab-top-menu > li:hover > .ab-item,
+#wpadminbar:not(.mobile) .ab-top-menu > li > .ab-item:focus,
+#wpadminbar .ab-top-menu > li.menupop.hover > .ab-item {
+    color: var(--sidebar-active-text) !important;
+    background: var(--adminbar-hover-bg) !important;
+}
+
+/* Adminbar: Submenu-Dropdown */
+#wpadminbar .menupop .ab-sub-wrapper {
+    background: var(--sidebar-bg) !important;
+    border: 1px solid var(--sidebar-border) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+#wpadminbar .ab-submenu .ab-item,
+#wpadminbar .quicklinks .menupop ul li a {
+    color: var(--sidebar-text) !important;
+}
+
+#wpadminbar .quicklinks .menupop ul li a:hover,
+#wpadminbar .quicklinks .menupop ul li a:focus {
+    color: var(--sidebar-active-text) !important;
+    background: var(--sidebar-hover-bg) !important;
+}
+
+/* WP-Logo in der Adminbar */
+#wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
+    color: #ffffff !important;
+}
+
+/* Avatar-Rahmen */
+#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
+    border-color: var(--sidebar-border) !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   10. CONTENT-BEREICH – allgemein
+   ----------------------------------------------------------------------------- */
+
+body #wpbody,
+body #wpbody-content {
+    background: var(--content-bg);
+    font-family: var(--custom-font);
+}
+
+.wrap h1,
+.wrap h2 {
+    font-family: var(--custom-font);
+    font-weight: 600;
+    color: #111827;
+}
+
+.wrap a {
+    color: var(--accent);
+}
+
+.wrap a:hover {
+    color: var(--accent-hover);
+}
+
+
+/* -----------------------------------------------------------------------------
+   11. BUTTONS
+   ----------------------------------------------------------------------------- */
+
+.wp-core-ui .button-primary {
+    background: var(--accent) !important;
+    border-color: var(--accent) !important;
+    color: #ffffff !important;
+    font-family: var(--custom-font);
+    border-radius: 6px;
+}
+
+.wp-core-ui .button-primary:hover,
+.wp-core-ui .button-primary:focus {
+    background: var(--accent-hover) !important;
+    border-color: var(--accent-hover) !important;
+}
+
+.wp-core-ui .button,
+.wp-core-ui .button-secondary {
+    font-family: var(--custom-font);
+    border-color: var(--sidebar-border) !important;
+    color: var(--sidebar-text) !important;
+    background: var(--content-bg) !important;
+    border-radius: 6px;
+}
+
+.wp-core-ui .button:hover,
+.wp-core-ui .button-secondary:hover {
+    border-color: #9ca3af !important;
+    color: var(--sidebar-active-text) !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   12. FORMULARELEMENTE
+   ----------------------------------------------------------------------------- */
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+textarea,
+select {
+    font-family: var(--custom-font) !important;
+    border-color: var(--sidebar-border) !important;
+    border-radius: 6px;
+    background: var(--content-bg) !important;
+    color: #111827 !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 1px var(--accent) !important;
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+    background: var(--accent) !important;
+    border-color: var(--accent) !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   13. TABELLEN (List Tables)
+   ----------------------------------------------------------------------------- */
+
+.widefat th,
+.widefat td {
+    font-family: var(--custom-font);
+    color: #374151;
+}
+
+.widefat thead tr th,
+.widefat tfoot tr th {
+    background: #f9fafb;
+    border-bottom: 1px solid var(--sidebar-border);
+    font-weight: 600;
+    color: #111827;
+}
+
+.widefat tr:hover td,
+.widefat tr:hover th {
+    background: #f9fafb !important;
+}
+
+.striped > tbody > :nth-child(odd),
+ul.striped > :nth-child(odd),
+.alternate {
+    background: #fafafa !important;
+}
+
+
+/* -----------------------------------------------------------------------------
+   14. POSTBOXEN / METABOXEN
+   ----------------------------------------------------------------------------- */
+
+.postbox {
+    border: 1px solid var(--sidebar-border) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.postbox .postbox-header {
+    border-bottom: 1px solid var(--sidebar-border) !important;
+    background: #fafafa !important;
+    border-radius: 8px 8px 0 0;
+}
+
+.postbox .postbox-header h2,
+.postbox .hndle {
+    font-family: var(--custom-font);
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+}
+
+
+/* -----------------------------------------------------------------------------
+   15. NOTICES / BENACHRICHTIGUNGEN
+   ----------------------------------------------------------------------------- */
+
+.notice,
+div.updated,
+div.error,
+div.notice {
+    font-family: var(--custom-font);
+    border-radius: 6px;
+    border-left-width: 4px;
+    box-shadow: none;
+}
+
+.notice-success,
+div.updated {
+    border-left-color: #16a34a !important;
+    background: #f0fdf4 !important;
+}
+
+.notice-error,
+div.error {
+    border-left-color: #dc2626 !important;
+    background: #fef2f2 !important;
+}
+
+.notice-warning {
+    border-left-color: #d97706 !important;
+    background: #fffbeb !important;
+}
+
+.notice-info {
+    border-left-color: var(--accent) !important;
+    background: #eff6ff !important;
+}
+
+/* -----------------------------------------------------------------------------
+   17. RESPONSIVE
+   Unsere Breiten-Overrides greifen nur ab 783px (siehe Abschnitt 3).
+   Darunter übernimmt WordPress die Kontrolle – wir korrigieren nur Lesbarkeit.
+   ----------------------------------------------------------------------------- */
+
+/* Folded Sidebar (960px) – Icons only, 36px breit – nur auf Tablet, nicht Mobile */
+@media only screen and (min-width: 783px) and (max-width: 960px) {
+    .auto-fold #wpcontent,
+    .auto-fold #wpfooter {
+        margin-left: 36px !important;
+    }
+
+    .auto-fold #adminmenuback,
+    .auto-fold #adminmenuwrap,
+    .auto-fold #adminmenu,
+    .auto-fold #adminmenu li.menu-top {
+        width: 36px !important;
+    }
+
+    /* Wenn Menü per Hamburger geöffnet: volle Breite, Texte sichtbar */
+    .auto-fold .wp-responsive-open #adminmenuback,
+    .auto-fold .wp-responsive-open #adminmenuwrap,
+    .auto-fold .wp-responsive-open #adminmenu,
+    .auto-fold .wp-responsive-open #adminmenu li.menu-top {
+        width: 100vw !important;
+    }
+
+    /* Im geschlossenen Zustand: adminmenuback ausblenden */
+    .auto-fold #adminmenuback {
+        display: none !important;
+    }
+
+    .auto-fold .wp-responsive-open #adminmenuback {
+        display: block !important;
+    }
+
+    .wp-responsive-open #adminmenu .wp-menu-name {
+        position: static !important;
+        left: auto !important;
+        display: block !important;
+    }
+
+    .wp-responsive-open #adminmenu a,
+    .wp-responsive-open #adminmenu li.menu-top > a,
+    .wp-responsive-open #adminmenu div.wp-menu-name {
+        font-size: 15px !important;
+        white-space: nowrap !important;
+        writing-mode: horizontal-tb !important;
+    }
+
+    .wp-responsive-open #adminmenu li.menu-top {
+        min-height: 44px !important;
+    }
+
+    /* Submenu volle Breite, kein Flyout */
+    .wp-responsive-open #adminmenu .wp-submenu {
+        position: relative !important;
+        width: 100% !important;
+        left: 0 !important;
+        top: 0 !important;
+        box-shadow: none !important;
+    }
+
+    /* Hintergrundfarbe der aktiven Submenu-Items auf volle Breite */
+    .wp-responsive-open #adminmenu .wp-has-current-submenu .wp-submenu,
+    .wp-responsive-open #adminmenu .wp-has-current-submenu.opensub .wp-submenu {
+        width: 100% !important;
+    }
+}
+
+/* Mobil (782px) */
+@media screen and (max-width: 782px) {
+    body #wpcontent,
+    body #wpfooter {
+        margin-left: 0 !important;
+    }
+}
+
+/* Smartphone (600px) */
+@media screen and (max-width: 600px) {
+    body #wpcontent {
+        padding-left: 10px;
+    }
+}
+
+div#wpfooter {
+    position: fixed;
+    background: #ffffff;
+}
