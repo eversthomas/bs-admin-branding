@@ -114,9 +114,7 @@
  	font-size: 12px;
  }
 
-/* WordPress Color Picker im Kontext der Settings-Seite konsistent darstellen */
 .bsab-settings-page .wp-picker-container .wp-color-result.button {
-	background: #f6f7f7 !important;
 	border-color: #dcdcde !important;
 	color: #1d2327;
 	position: relative;
