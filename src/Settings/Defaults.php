@@ -49,6 +49,11 @@ final class Defaults {
 			'color_text_heading'       => '#111827',
 			'color_text_input'         => '#111827',
 			'color_button_border_hover'=> '#9ca3af',
+			'color_button_border'      => '#2563eb',
+			'color_button_bg'          => '#2563eb',
+			'color_button_hover_bg'    => '#1d4ed8',
+			'color_button_text'        => '#ffffff',
+			'color_button_text_hover'  => '#ffffff',
 			'color_footer_bg'          => '#ffffff',
 			'color_adminbar_hover_bg'  => '#e5effe',
 

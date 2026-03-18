@@ -98,7 +98,7 @@ body #adminmenu {
 
 #adminmenu div.wp-menu-image:before,
 div.wp-menu-image:before {
-    color: var(--sidebar-text-sub) !important;
+    color: var(--sidebar-text) !important;
 }
 
 #adminmenu div.wp-menu-name {
@@ -248,7 +248,7 @@ body #wpadminbar {
 #wpadminbar .ab-icon:before,
 #wpadminbar .ab-item:before,
 #wpadminbar .ab-item:after {
-    color: var(--adminbar-text-sub) !important;
+    color: var(--adminbar-text) !important;
 }
 
 /* Adminbar: Hover */
@@ -318,33 +318,59 @@ body #wpbody-content {
    11. BUTTONS
    ----------------------------------------------------------------------------- */
 
-.wp-core-ui .button-primary {
-    background: var(--accent) !important;
-    border-color: var(--accent) !important;
-    color: #ffffff !important;
+.wp-core-ui .button-primary,
+.button.button-primary,
+input.button.button-primary,
+a.button.button-primary {
+    background: var(--bsab-button-bg, var(--accent)) !important;
+    background-color: var(--bsab-button-bg, var(--accent)) !important;
+    background-image: none !important;
+    border-color: var(--bsab-button-border, var(--accent)) !important;
+    color: var(--bsab-button-text) !important;
     font-family: var(--custom-font);
     border-radius: 6px;
 }
 
+/* Speichern-Buttons (WP Settings API) – extra spezifisch gegen Core-Overrides */
+input#submit.button.button-primary,
+input#submit.button-primary {
+    background: var(--bsab-button-bg, var(--accent)) !important;
+    background-color: var(--bsab-button-bg, var(--accent)) !important;
+    background-image: none !important;
+}
+
 .wp-core-ui .button-primary:hover,
-.wp-core-ui .button-primary:focus {
-    background: var(--accent-hover) !important;
-    border-color: var(--accent-hover) !important;
+.wp-core-ui .button-primary:focus,
+.button.button-primary:hover,
+.button.button-primary:focus,
+input.button.button-primary:hover,
+input.button.button-primary:focus,
+a.button.button-primary:hover,
+a.button.button-primary:focus {
+    background: var(--bsab-button-hover-bg, var(--accent-hover)) !important;
+    background-color: var(--bsab-button-hover-bg, var(--accent-hover)) !important;
+    background-image: none !important;
+    border-color: var(--bsab-button-border, var(--accent-hover)) !important;
+    color: var(--bsab-button-text-hover, var(--bsab-button-text)) !important;
 }
 
 .wp-core-ui .button:not(.wp-color-result),
-.wp-core-ui .button-secondary:not(.wp-color-result) {
+.wp-core-ui .button-secondary:not(.wp-color-result),
+.button:not(.wp-color-result),
+.button-secondary:not(.wp-color-result) {
     font-family: var(--custom-font);
-    border-color: var(--sidebar-border) !important;
+    border-color: var(--bsab-button-border, var(--sidebar-border)) !important;
     color: var(--sidebar-text) !important;
     background: var(--content-bg) !important;
     border-radius: 6px;
 }
 
 .wp-core-ui .button:hover,
-.wp-core-ui .button-secondary:hover {
+.wp-core-ui .button-secondary:hover,
+.button:hover,
+.button-secondary:hover {
     border-color: var(--bsab-button-border-hover) !important;
-    color: var(--sidebar-active-text) !important;
+    color: var(--bsab-button-text-hover, var(--sidebar-active-text)) !important;
 }
 
 

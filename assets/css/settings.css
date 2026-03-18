@@ -12,9 +12,9 @@
  	}
  }
 
-/* Farben-Tab: Karte darf breiter sein, Inhalt wird innen zweispaltig aufgeteilt */
+/* Farben-Tab: Grid/Accordions steuern das Layout */
 .bsab-tab-panel[data-bsab-tab-panel="colors"] .bsab-settings-layout {
-	grid-template-columns: minmax(0, 1.6fr);
+	grid-template-columns: minmax(0, 1fr);
 }
 
  .bsab-settings-column {
@@ -49,24 +49,25 @@
  	width: 220px;
  }
 
-.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table tbody {
+/* Legacy-Regeln für das frühere 1-Card-Farblayout – bleiben hier bewusst inaktiv */
+.bsab-tab-panel[data-bsab-tab-panel="colors"] .bsab-settings-card > .form-table tbody {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	column-gap: 24px;
 }
 
-.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table tr {
+.bsab-tab-panel[data-bsab-tab-panel="colors"] .bsab-settings-card > .form-table tr {
 	display: block;
 	width: 100%;
 	box-sizing: border-box;
 }
 
-.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table th {
+.bsab-tab-panel[data-bsab-tab-panel="colors"] .bsab-settings-card > .form-table th {
 	width: auto;
 	display: block;
 }
 
-.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table td {
+.bsab-tab-panel[data-bsab-tab-panel="colors"] .bsab-settings-card > .form-table td {
 	display: block;
 	padding-left: 0;
 }
@@ -95,11 +96,11 @@
  		padding-left: 0;
  	}
 
-	.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table tbody {
+	.bsab-tab-panel[data-bsab-tab-panel="colors"] .bsab-settings-card > .form-table tbody {
 		display: block;
 	}
 
-	.bsab-tab-panel[data-bsab-tab-panel="colors"] .form-table tr {
+	.bsab-tab-panel[data-bsab-tab-panel="colors"] .bsab-settings-card > .form-table tr {
 		width: 100%;
 		padding-right: 0;
 	}
@@ -188,5 +189,92 @@
 .bsab-submit-top {
 	display: inline-block;
 	margin-bottom: 8px;
+}
+
+/* === Farben-Tab: 2-Spalten-Grid === */
+.bsab-colors-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: dense;
+    gap: 12px;
+    align-items: start;
+}
+
+@media (max-width: 1200px) {
+    .bsab-colors-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* === Accordion (details/summary) === */
+.bsab-color-accordion {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--bsab-border, #e5e7eb);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.bsab-color-accordion summary {
+	list-style: none;
+}
+
+.bsab-color-accordion summary::-webkit-details-marker {
+	display: none;
+}
+
+.bsab-color-accordion__header {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    background: var(--card-bg, #ffffff);
+    border-bottom: 1px solid transparent;
+    transition: background 0.15s ease;
+}
+
+.bsab-color-accordion[open] .bsab-color-accordion__header {
+    border-bottom-color: var(--bsab-border, #e5e7eb);
+}
+
+.bsab-color-accordion__header::-webkit-details-marker {
+    display: none;
+}
+
+.bsab-color-accordion__header::marker {
+    display: none;
+}
+
+.bsab-color-accordion__header:hover {
+    background: var(--bsab-table-header-bg, #f9fafb);
+}
+
+.bsab-color-accordion__title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bsab-text-heading, #111827);
+    font-family: var(--custom-font);
+}
+
+.bsab-color-accordion__hint {
+    font-size: 12px;
+    color: var(--sidebar-text-sub, #6b7280);
+    font-family: var(--custom-font);
+    font-weight: 400;
+}
+
+.bsab-color-accordion__body {
+    padding: 8px 0;
+}
+
+.bsab-color-accordion__body .form-table th {
+    padding-left: 16px;
+    width: 180px;
+}
+
+.bsab-color-accordion__body .form-table td {
+    padding-right: 16px;
 }
 

@@ -155,6 +155,28 @@
 				this.form.submit();
 			}
 		});
+
+		// Accordion-Zustand in localStorage persistieren
+		try {
+			document.querySelectorAll('.bsab-color-accordion').forEach(function (el) {
+				var id = el.dataset.bsabAccordion;
+				if (!id) return;
+				var key = 'bsab_accordion_' + id;
+				// Gespeicherten Zustand laden (überschreibt das HTML-open-Attribut)
+				var stored = localStorage.getItem(key);
+				if (stored === null && el.open) {
+					el.open = false;
+				}
+				if (stored === 'open') el.open = true;
+				if (stored === 'closed') el.open = false;
+				// Zustandsänderungen speichern
+				el.addEventListener('toggle', function () {
+					localStorage.setItem(key, el.open ? 'open' : 'closed');
+				});
+			});
+		} catch (e) {
+			// ignore storage errors
+		}
  	});
  })(jQuery);
 

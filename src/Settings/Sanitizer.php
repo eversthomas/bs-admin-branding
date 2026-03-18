@@ -49,6 +49,11 @@ final class Sanitizer {
 		$output['color_text_heading']        = self::sanitize_hex($input['color_text_heading'] ?? $defaults['color_text_heading'], $defaults['color_text_heading']);
 		$output['color_text_input']          = self::sanitize_hex($input['color_text_input'] ?? $defaults['color_text_input'], $defaults['color_text_input']);
 		$output['color_button_border_hover'] = self::sanitize_hex($input['color_button_border_hover'] ?? $defaults['color_button_border_hover'], $defaults['color_button_border_hover']);
+		$output['color_button_border']       = self::sanitize_hex($input['color_button_border'] ?? $defaults['color_button_border'], $defaults['color_button_border']);
+		$output['color_button_bg']           = self::sanitize_hex($input['color_button_bg'] ?? $defaults['color_button_bg'], $defaults['color_button_bg']);
+		$output['color_button_hover_bg']     = self::sanitize_hex($input['color_button_hover_bg'] ?? $defaults['color_button_hover_bg'], $defaults['color_button_hover_bg']);
+		$output['color_button_text']         = self::sanitize_hex($input['color_button_text'] ?? $defaults['color_button_text'], $defaults['color_button_text']);
+		$output['color_button_text_hover']   = self::sanitize_hex($input['color_button_text_hover'] ?? $defaults['color_button_text_hover'], $defaults['color_button_text_hover']);
 		$output['color_footer_bg']           = self::sanitize_hex($input['color_footer_bg'] ?? $defaults['color_footer_bg'], $defaults['color_footer_bg']);
 		$output['color_adminbar_hover_bg']   = self::sanitize_hex($input['color_adminbar_hover_bg'] ?? $defaults['color_adminbar_hover_bg'], $defaults['color_adminbar_hover_bg']);
 

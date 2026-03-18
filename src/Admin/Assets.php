@@ -162,6 +162,11 @@ final class Assets {
 		echo '--bsab-text-heading:' . esc_attr($settings['color_text_heading']) . ';';
 		echo '--bsab-text-input:' . esc_attr($settings['color_text_input']) . ';';
 		echo '--bsab-button-border-hover:' . esc_attr($settings['color_button_border_hover']) . ';';
+		echo '--bsab-button-border:' . esc_attr($settings['color_button_border']) . ';';
+		echo '--bsab-button-bg:' . esc_attr($settings['color_button_bg']) . ';';
+		echo '--bsab-button-hover-bg:' . esc_attr($settings['color_button_hover_bg']) . ';';
+		echo '--bsab-button-text:' . esc_attr($settings['color_button_text']) . ';';
+		echo '--bsab-button-text-hover:' . esc_attr($settings['color_button_text_hover']) . ';';
 		echo '--bsab-footer-bg:' . esc_attr($settings['color_footer_bg']) . ';';
 		echo '--bsab-adminbar-hover-bg:' . esc_attr($settings['color_adminbar_hover_bg']) . ';';
 
@@ -177,7 +182,7 @@ final class Assets {
 		echo '--sidebar-bg-sub:' . esc_attr($settings['color_sidebar_submenu_bg']) . ';';
 		echo '--sidebar-submenu-hover-bg:' . esc_attr($settings['color_sidebar_submenu_hover_bg']) . ';';
 		echo '--sidebar-text:' . esc_attr($settings['color_sidebar_text']) . ';';
-		echo '--sidebar-text-sub:' . esc_attr($settings['color_sidebar_text']) . ';' // Alias
+		echo '--sidebar-text-sub:' . esc_attr($settings['color_sidebar_text']) . ';'; // Alias
 		echo '--sidebar-hover:' . esc_attr($settings['color_sidebar_hover']) . ';';
 		echo '--sidebar-hover-bg:' . esc_attr($settings['color_sidebar_hover']) . ';';
 		echo '--sidebar-hover-text:' . esc_attr($settings['color_sidebar_hover_text']) . ';';
@@ -189,7 +194,7 @@ final class Assets {
 
 		echo '--adminbar-bg:' . esc_attr($settings['color_adminbar_bg']) . ';';
 		echo '--adminbar-text:' . esc_attr($settings['color_adminbar_text']) . ';';
-		echo '--adminbar-text-sub:' . esc_attr($settings['color_adminbar_text']) . ';' // Alias
+		echo '--adminbar-text-sub:' . esc_attr($settings['color_adminbar_text']) . ';'; // Alias
 		echo '--adminbar-border:' . esc_attr($settings['color_border']) . ';';
 		echo '--adminbar-hover-bg:' . esc_attr($settings['color_adminbar_hover_bg']) . ';';
 
@@ -248,6 +253,11 @@ final class Assets {
 			. '--bsab-text-heading:' . esc_attr($settings['color_text_heading']) . ';'
 			. '--bsab-text-input:' . esc_attr($settings['color_text_input']) . ';'
 			. '--bsab-button-border-hover:' . esc_attr($settings['color_button_border_hover']) . ';'
+			. '--bsab-button-border:' . esc_attr($settings['color_button_border']) . ';'
+			. '--bsab-button-bg:' . esc_attr($settings['color_button_bg']) . ';'
+			. '--bsab-button-hover-bg:' . esc_attr($settings['color_button_hover_bg']) . ';'
+			. '--bsab-button-text:' . esc_attr($settings['color_button_text']) . ';'
+			. '--bsab-button-text-hover:' . esc_attr($settings['color_button_text_hover']) . ';'
 			. '--bsab-footer-bg:' . esc_attr($settings['color_footer_bg']) . ';'
 			. '--bsab-adminbar-hover-bg:' . esc_attr($settings['color_adminbar_hover_bg']) . ';'
 
